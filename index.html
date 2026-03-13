@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UFCD 6569 — Fichas de Estudo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0eb;
+    --surface: #fffdf9;
+    --surface2: #f0ebe3;
+    --primary: #2c4a3e;
+    --primary-light: #3d6b5a;
+    --accent: #c4703f;
+    --accent-light: #e8955f;
+    --text: #1a1a1a;
+    --text-muted: #6b6560;
+    --border: #d8d0c5;
+    --correct: #2d6a4f;
+    --correct-bg: #d8f3dc;
+    --wrong: #9b2335;
+    --wrong-bg: #fde8e8;
+    --info: #1a4a7a;
+    --info-bg: #dbeafe;
+    --shadow: 0 4px 24px rgba(44,74,62,0.10);
+    --shadow-lg: 0 8px 40px rgba(44,74,62,0.16);
+    --radius: 12px;
+    --radius-lg: 20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(circle at 20% 20%, rgba(44,74,62,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(196,112,63,0.06) 0%, transparent 50%);
+  }
+
+  /* HEADER */
+  header {
+    background: var(--primary);
+    color: white;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    background: rgba(196,112,63,0.15);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.4rem;
+  }
+  header p {
+    opacity: 0.75;
+    font-size: 0.95rem;
+    font-weight: 300;
+  }
+  .badge-row {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    display: inline-block;
+  }
+  a.badge:hover {
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.5);
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    background: var(--surface2);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary);
+    white-space: nowrap;
+  }
+  #score-display {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* SECTION TITLES */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2.5rem 0 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid var(--primary);
+  }
+  .section-icon {
+    width: 40px; height: 40px;
+    background: var(--primary);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: var(--primary);
+  }
+  .section-header span.count {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 1.2rem;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s;
+    scroll-margin-top: 70px;
+  }
+  .q-card:hover { box-shadow: var(--shadow-lg); }
+  .q-card.answered { border-color: var(--border); }
+
+  .q-number {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .q-text {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+    margin-bottom: 1.1rem;
+    color: var(--text);
+  }
+
+  /* MULTIPLE CHOICE */
+  .options-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .options-list li { cursor: pointer; }
+  .option-btn {
+    width: 100%;
+    text-align: left;
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--primary-light);
+    background: #e8f0ed;
+  }
+  .option-btn .opt-letter {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .option-btn.correct {
+    border-color: var(--correct);
+    background: var(--correct-bg);
+    color: var(--correct);
+  }
+  .option-btn.correct .opt-letter { background: var(--correct); color: white; }
+  .option-btn.wrong {
+    border-color: var(--wrong);
+    background: var(--wrong-bg);
+    color: var(--wrong);
+  }
+  .option-btn.wrong .opt-letter { background: var(--wrong); color: white; }
+  .option-btn:disabled { cursor: default; }
+
+  /* TRUE / FALSE */
+  .tf-row { display: flex; gap: 0.8rem; cursor: pointer; }
+  .tf-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    background: var(--surface2);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text);
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+  }
+  .tf-btn:hover:not(:disabled) { border-color: var(--primary); background: #e8f0ed; }
+  .tf-btn.correct { border-color: var(--correct); background: var(--correct-bg); color: var(--correct); }
+  .tf-btn.wrong { border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong); }
+  .tf-btn:disabled { cursor: default; }
+
+  /* FEEDBACK BOX */
+  .feedback {
+    margin-top: 1rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: var(--correct-bg); border-left: 4px solid var(--correct); color: #1a4a2e; }
+  .feedback.wrong-fb { background: var(--wrong-bg); border-left: 4px solid var(--wrong); color: #6b1a1a; }
+  .feedback strong { display: block; margin-bottom: 0.3rem; font-size: 1rem; }
+
+  /* REVEAL BUTTON */
+  .reveal-btn {
+    margin-top: 1rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.3rem;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .reveal-btn:hover { background: var(--primary-light); }
+
+  /* DEVELOPMENT QUESTION */
+  .dev-textarea {
+    width: 100%;
+    min-height: 100px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background: var(--surface2);
+    resize: vertical;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .dev-textarea:focus { outline: none; border-color: var(--primary); }
+  .answer-box {
+    display: none;
+    margin-top: 1rem;
+    background: var(--info-bg);
+    border-left: 4px solid var(--info);
+    border-radius: 0 10px 10px 0;
+    padding: 1rem 1.2rem;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #1a2a4a;
+  }
+  .answer-box.show { display: block; }
+  .answer-box strong { display: block; margin-bottom: 0.4rem; color: var(--info); }
+
+  /* FILL IN THE BLANK */
+  .blank-text {
+    font-size: 1rem;
+    line-height: 2.2;
+    margin-bottom: 1rem;
+  }
+  .blank-input {
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    background: transparent;
+    font-family: inherit;
+    font-size: 1rem;
+    width: 140px;
+    text-align: center;
+    padding: 0 0.3rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .blank-input:focus { border-bottom-color: var(--primary); }
+  .blank-input.correct-blank { border-bottom-color: var(--correct); color: var(--correct); font-weight: 600; }
+  .blank-input.wrong-blank { border-bottom-color: var(--wrong); color: var(--wrong); }
+  .word-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    background: var(--surface2);
+    border-radius: 10px;
+    border: 1px dashed var(--border);
+  }
+  .word-chip {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .word-chip:hover { border-color: var(--primary); background: #e8f0ed; }
+  .word-chip.used { opacity: 0.4; text-decoration: line-through; cursor: default; }
+
+  /* DIAGRAM LABEL QUESTION */
+  .diagram-container {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  .skin-diagram {
+    flex: 0 0 auto;
+    width: 260px;
+  }
+  .label-inputs {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .label-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+  }
+  .label-marker {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+  }
+  .label-input {
+    flex: 1;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 0.4rem 0.7rem;
+    font-family: inherit;
+    font-size: 0.88rem;
+    background: var(--surface2);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .label-input:focus { border-color: var(--primary); }
+  .label-input.correct-blank { border-color: var(--correct); background: var(--correct-bg); color: var(--correct); font-weight: 600; }
+  .label-input.wrong-blank { border-color: var(--wrong); background: var(--wrong-bg); }
+
+  /* SVG DIAGRAM */
+  .skin-svg { width: 100%; height: auto; }
+
+  /* CHECK BUTTON */
+  .check-btn {
+    margin-top: 0.8rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.65rem 1.4rem;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .check-btn:hover { background: var(--accent-light); }
+
+  /* FINAL SCORE */
+  #final-result {
+    display: none;
+    background: var(--primary);
+    color: white;
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  #final-result h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 0.5rem; }
+  #final-result .big-score { font-size: 4rem; font-weight: 700; color: #ffd580; margin: 0.5rem 0; }
+  #final-result p { opacity: 0.85; }
+  .restart-btn {
+    margin-top: 1.5rem;
+    background: white;
+    color: var(--primary);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* BOTÃO VOLTAR AO TOPO */
+  #btn-topo {
+    position: fixed;
+    bottom: 2rem;
+    right: 1.5rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.6rem 1.1rem;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(44,74,62,0.35);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s;
+    pointer-events: none;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  #btn-topo.visivel {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  #btn-topo:hover { background: var(--primary-light); }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.5rem; }
+    main { padding: 1.2rem 1rem 3rem; }
+    .q-card { padding: 1.2rem 1.2rem; }
+    .diagram-container { flex-direction: column; }
+    .skin-diagram { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>UFCD 6569 — Noções Gerais sobre a Pele</h1>
+  <p>Técnico Auxiliar de Saúde · IEFP · Fichas de Estudo para Avaliação</p>
+  <div class="badge-row">
+    <a class="badge" href="#q1">Escolha Múltipla</a>
+    <a class="badge" href="#q13">Verdadeiro / Falso</a>
+    <a class="badge" href="#q54">Desenvolvimento</a>
+    <a class="badge" href="#q25">Preenchimento</a>
+    <a class="badge" href="#q18">Legendas</a>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-text" id="progressText">0 / 0</span>
+  <span id="score-display">✓ 0</span>
+</div>
+
+<main id="quiz-main">
+
+<!-- ===================== BLOCO 1: ESTRUTURA DA PELE ===================== -->
+<div class="section-header">
+  <div class="section-icon">🔬</div>
+  <h2>Bloco 1 — Estrutura da Pele</h2>
+  <span class="count">Perguntas 1–18</span>
+</div>
+
+<!-- Q1 MC -->
+<div class="q-card" id="q1">
+  <div class="q-number">Pergunta 1 · Escolha Múltipla</div>
+  <div class="q-text">Qual é a área aproximada de superfície da pele de um adulto?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q1"><span class="opt-letter">A</span>Cerca de 1 m²</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q1"><span class="opt-letter">B</span>Quase 2 m²</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q1"><span class="opt-letter">C</span>Cerca de 3 m²</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q1"><span class="opt-letter">D</span>Menos de 0,5 m²</button></li>
+  </ul>
+  <div class="feedback" id="fb-q1"></div>
+</div>
+
+<!-- Q2 MC -->
+<div class="q-card" id="q2">
+  <div class="q-number">Pergunta 2 · Escolha Múltipla</div>
+  <div class="q-text">Quantas camadas principais constituem a pele?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q2"><span class="opt-letter">A</span>Duas (epiderme e derme)</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q2"><span class="opt-letter">B</span>Três (epiderme, derme e hipoderme)</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q2"><span class="opt-letter">C</span>Quatro (epiderme, derme, hipoderme e músculo)</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q2"><span class="opt-letter">D</span>Uma única camada contínua</button></li>
+  </ul>
+  <div class="feedback" id="fb-q2"></div>
+</div>
+
+<!-- Q3 MC -->
+<div class="q-card" id="q3">
+  <div class="q-number">Pergunta 3 · Escolha Múltipla</div>
+  <div class="q-text">Qual das seguintes células é responsável pela produção de melanina?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q3"><span class="opt-letter">A</span>Queratinócito</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q3"><span class="opt-letter">B</span>Melanócito</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q3"><span class="opt-letter">C</span>Célula de Langerhans</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q3"><span class="opt-letter">D</span>Fibroblasto</button></li>
+  </ul>
+  <div class="feedback" id="fb-q3"></div>
+</div>
+
+<!-- Q4 MC -->
+<div class="q-card" id="q4">
+  <div class="q-number">Pergunta 4 · Escolha Múltipla</div>
+  <div class="q-text">A célula de Langerhans presente na epiderme tem como principal função:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q4"><span class="opt-letter">A</span>Produzir queratina</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q4"><span class="opt-letter">B</span>Regular a temperatura corporal</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q4"><span class="opt-letter">C</span>Defesa imunológica</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q4"><span class="opt-letter">D</span>Produzir sebo</button></li>
+  </ul>
+  <div class="feedback" id="fb-q4"></div>
+</div>
+
+<!-- Q5 MC -->
+<div class="q-card" id="q5">
+  <div class="q-number">Pergunta 5 · Escolha Múltipla</div>
+  <div class="q-text">Qual é a camada mais profunda da epiderme, onde ocorre a multiplicação celular?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q5"><span class="opt-letter">A</span>Camada córnea</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q5"><span class="opt-letter">B</span>Camada granulosa</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q5"><span class="opt-letter">C</span>Camada basal</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q5"><span class="opt-letter">D</span>Camada espinhosa</button></li>
+  </ul>
+  <div class="feedback" id="fb-q5"></div>
+</div>
+
+<!-- Q6 MC -->
+<div class="q-card" id="q6">
+  <div class="q-number">Pergunta 6 · Escolha Múltipla</div>
+  <div class="q-text">O processo de renovação completa da epiderme (descamação) demora aproximadamente:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q6"><span class="opt-letter">A</span>1 semana</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q6"><span class="opt-letter">B</span>3 semanas</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q6"><span class="opt-letter">C</span>1 mês</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q6"><span class="opt-letter">D</span>6 meses</button></li>
+  </ul>
+  <div class="feedback" id="fb-q6"></div>
+</div>
+
+<!-- Q7 MC -->
+<div class="q-card" id="q7">
+  <div class="q-number">Pergunta 7 · Escolha Múltipla</div>
+  <div class="q-text">O filme hidrolipídico que cobre a epiderme tem um pH:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q7"><span class="opt-letter">A</span>Neutro (7,0)</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q7"><span class="opt-letter">B</span>Alcalino (8,0–9,0)</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q7"><span class="opt-letter">C</span>Ligeiramente ácido (5,4–5,9)</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q7"><span class="opt-letter">D</span>Fortemente ácido (2,0–3,0)</button></li>
+  </ul>
+  <div class="feedback" id="fb-q7"></div>
+</div>
+
+<!-- Q8 MC -->
+<div class="q-card" id="q8">
+  <div class="q-number">Pergunta 8 · Escolha Múltipla</div>
+  <div class="q-text">As fibras de colagénio e elastina presentes na derme são responsáveis por:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q8"><span class="opt-letter">A</span>Produção de melanina e proteção UV</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q8"><span class="opt-letter">B</span>Resistência e elasticidade da pele</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q8"><span class="opt-letter">C</span>Regulação da temperatura corporal</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q8"><span class="opt-letter">D</span>Impermeabilização da superfície cutânea</button></li>
+  </ul>
+  <div class="feedback" id="fb-q8"></div>
+</div>
+
+<!-- Q9 MC - Recetores -->
+<div class="q-card" id="q9">
+  <div class="q-number">Pergunta 9 · Escolha Múltipla</div>
+  <div class="q-text">Qual dos recetores sensoriais da derme é sensível ao frio?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q9"><span class="opt-letter">A</span>Corpúsculo de Vater-Pacini</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q9"><span class="opt-letter">B</span>Corpúsculo de Ruffini</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q9"><span class="opt-letter">C</span>Corpúsculo de Krause</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q9"><span class="opt-letter">D</span>Corpúsculo de Meissner</button></li>
+  </ul>
+  <div class="feedback" id="fb-q9"></div>
+</div>
+
+<!-- Q10 MC -->
+<div class="q-card" id="q10">
+  <div class="q-number">Pergunta 10 · Escolha Múltipla</div>
+  <div class="q-text">A hipoderme (tecido subcutâneo) é composta principalmente por:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q10"><span class="opt-letter">A</span>Queratinócitos e melanócitos</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q10"><span class="opt-letter">B</span>Fibras de colagénio e elastina</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q10"><span class="opt-letter">C</span>Adipócitos (células de gordura)</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q10"><span class="opt-letter">D</span>Glândulas sebáceas e sudoríparas</button></li>
+  </ul>
+  <div class="feedback" id="fb-q10"></div>
+</div>
+
+<!-- Q11 MC - Glândulas -->
+<div class="q-card" id="q11">
+  <div class="q-number">Pergunta 11 · Escolha Múltipla</div>
+  <div class="q-text">As glândulas sudoríparas apócrinas, ao contrário das écrinas, estão localizadas em:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q11"><span class="opt-letter">A</span>Todo o corpo, inclusive palmas das mãos</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q11"><span class="opt-letter">B</span>Axilas, região genital, umbigo e orelhas</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q11"><span class="opt-letter">C</span>Apenas nas palmas das mãos e pés</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q11"><span class="opt-letter">D</span>Exclusivamente no couro cabeludo</button></li>
+  </ul>
+  <div class="feedback" id="fb-q11"></div>
+</div>
+
+<!-- Q12 MC -->
+<div class="q-card" id="q12">
+  <div class="q-number">Pergunta 12 · Escolha Múltipla</div>
+  <div class="q-text">As glândulas sebáceas estão ausentes em qual região do corpo?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q12"><span class="opt-letter">A</span>Couro cabeludo e face</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q12"><span class="opt-letter">B</span>Axilas e região genital</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q12"><span class="opt-letter">C</span>Palmas das mãos e plantas dos pés</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q12"><span class="opt-letter">D</span>Costas e abdómen</button></li>
+  </ul>
+  <div class="feedback" id="fb-q12"></div>
+</div>
+
+<!-- Q13 TF -->
+<div class="q-card" id="q13">
+  <div class="q-number">Pergunta 13 · Verdadeiro ou Falso</div>
+  <div class="q-text">A epiderme possui uma rede rica de vasos sanguíneos que a nutrem diretamente.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q13" data-answer="false">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q13" data-answer="true">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q13"></div>
+</div>
+
+<!-- Q14 TF -->
+<div class="q-card" id="q14">
+  <div class="q-number">Pergunta 14 · Verdadeiro ou Falso</div>
+  <div class="q-text">A camada córnea da epiderme é constituída por cerca de 20 camadas de células mortas.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q14" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q14" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q14"></div>
+</div>
+
+<!-- Q15 TF -->
+<div class="q-card" id="q15">
+  <div class="q-number">Pergunta 15 · Verdadeiro ou Falso</div>
+  <div class="q-text">No couro cabeludo de um adulto existem, em média, 100 a 150 mil cabelos, dos quais se perdem 70 a 100 por dia.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q15" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q15" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q15"></div>
+</div>
+
+<!-- Q16 TF -->
+<div class="q-card" id="q16">
+  <div class="q-number">Pergunta 16 · Verdadeiro ou Falso</div>
+  <div class="q-text">O caroteno é um pigmento sintetizado diretamente pelo organismo humano, sem necessidade de ingestão alimentar.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q16" data-answer="false">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q16" data-answer="true">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q16"></div>
+</div>
+
+<!-- Q17 TF -->
+<div class="q-card" id="q17">
+  <div class="q-number">Pergunta 17 · Verdadeiro ou Falso</div>
+  <div class="q-text">A camada papilar da derme é constituída por tecido conjuntivo denso, onde predominam as fibras de colagénio.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q17" data-answer="false">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q17" data-answer="true">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q17"></div>
+</div>
+
+<!-- Q18 DIAGRAM - Layers of Skin -->
+<div class="q-card" id="q18">
+  <div class="q-number">Pergunta 18 · Legenda do Diagrama</div>
+  <div class="q-text">Identifica as camadas e estruturas da pele assinaladas no diagrama. Clica nos termos do banco de palavras para os copiar para os campos correspondentes.</div>
+  <div class="diagram-container">
+    <div class="skin-diagram">
+      <svg viewBox="0 0 220 340" class="skin-svg" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background -->
+        <rect width="220" height="340" fill="#fdf8f2" rx="8"/>
+        <!-- Camada córnea -->
+        <rect x="20" y="10" width="180" height="30" fill="#e8d5b7" rx="4"/>
+        <text x="110" y="30" text-anchor="middle" font-size="9" fill="#5a4a3a" font-family="sans-serif">camada córnea</text>
+        <!-- Epiderme -->
+        <rect x="20" y="40" width="180" height="60" fill="#f5c9a0" rx="0"/>
+        <text x="110" y="75" text-anchor="middle" font-size="9" fill="#5a4a3a" font-family="sans-serif">epiderme</text>
+        <!-- Derme -->
+        <rect x="20" y="100" width="180" height="100" fill="#d4a574" rx="0"/>
+        <text x="110" y="155" text-anchor="middle" font-size="9" fill="#3a2a1a" font-family="sans-serif">derme</text>
+        <!-- Hipoderme -->
+        <rect x="20" y="200" width="180" height="80" fill="#c8956c" rx="0"/>
+        <text x="110" y="245" text-anchor="middle" font-size="9" fill="#3a1a0a" font-family="sans-serif">hipoderme</text>
+        <!-- Músculo -->
+        <rect x="20" y="280" width="180" height="45" fill="#b06060" rx="0 0 4 4"/>
+        <text x="110" y="307" text-anchor="middle" font-size="9" fill="white" font-family="sans-serif">músculo</text>
+        <!-- Glândula sudorípara (écrinas) - snail shape in derme -->
+        <ellipse cx="70" cy="160" rx="12" ry="8" fill="#a0c4e8" opacity="0.8"/>
+        <path d="M70,168 Q65,185 70,200" stroke="#a0c4e8" stroke-width="2" fill="none"/>
+        <!-- Folículo piloso -->
+        <rect x="140" y="50" width="6" height="120" fill="#7a5a3a" rx="3"/>
+        <ellipse cx="143" cy="180" rx="8" ry="6" fill="#5a3a1a"/>
+        <!-- Glândula sebácea -->
+        <ellipse cx="130" cy="115" rx="10" ry="7" fill="#f0d080" opacity="0.9"/>
+        <!-- Marcadores numéricos -->
+        <circle cx="10" cy="25" r="7" fill="#2c4a3e"/>
+        <text x="10" y="29" text-anchor="middle" font-size="8" fill="white" font-weight="bold" font-family="sans-serif">1</text>
+        <circle cx="10" cy="70" r="7" fill="#3d6b5a"/>
+        <text x="10" y="74" text-anchor="middle" font-size="8" fill="white" font-weight="bold" font-family="sans-serif">2</text>
+        <circle cx="10" cy="150" r="7" fill="#c4703f"/>
+        <text x="10" y="154" text-anchor="middle" font-size="8" fill="white" font-weight="bold" font-family="sans-serif">3</text>
+        <circle cx="10" cy="240" r="7" fill="#8b5e3c"/>
+        <text x="10" y="244" text-anchor="middle" font-size="8" fill="white" font-weight="bold" font-family="sans-serif">4</text>
+        <circle cx="155" cy="85" r="7" fill="#9b2335"/>
+        <text x="155" y="89" text-anchor="middle" font-size="8" fill="white" font-weight="bold" font-family="sans-serif">5</text>
+        <circle cx="135" cy="108" r="7" fill="#6a4a8a"/>
+        <text x="135" y="112" text-anchor="middle" font-size="8" fill="white" font-weight="bold" font-family="sans-serif">6</text>
+      </svg>
+    </div>
+    <div class="label-inputs">
+      <div style="margin-bottom:0.6rem;">
+        <div class="word-bank" id="wb-q18">
+          <span class="word-chip" data-usechip="diag18" data-chipvalue="Epiderme">Epiderme</span>
+          <span class="word-chip" data-usechip="diag18" data-chipvalue="Derme">Derme</span>
+          <span class="word-chip" data-usechip="diag18" data-chipvalue="Hipoderme">Hipoderme</span>
+          <span class="word-chip" data-usechip="diag18" data-chipvalue="Camada córnea">Camada córnea</span>
+          <span class="word-chip" data-usechip="diag18" data-chipvalue="Folículo piloso">Folículo piloso</span>
+          <span class="word-chip" data-usechip="diag18" data-chipvalue="Glândula sebácea">Glândula sebácea</span>
+        </div>
+      </div>
+      <div class="label-row">
+        <span class="label-marker" style="background:#2c4a3e">1</span>
+        <input class="label-input" id="diag18-1" placeholder="Escreve ou clica no termo..." data-answer="Camada córnea">
+      </div>
+      <div class="label-row">
+        <span class="label-marker" style="background:#3d6b5a">2</span>
+        <input class="label-input" id="diag18-2" placeholder="Escreve ou clica no termo..." data-answer="Epiderme">
+      </div>
+      <div class="label-row">
+        <span class="label-marker" style="background:#c4703f">3</span>
+        <input class="label-input" id="diag18-3" placeholder="Escreve ou clica no termo..." data-answer="Derme">
+      </div>
+      <div class="label-row">
+        <span class="label-marker" style="background:#8b5e3c">4</span>
+        <input class="label-input" id="diag18-4" placeholder="Escreve ou clica no termo..." data-answer="Hipoderme">
+      </div>
+      <div class="label-row">
+        <span class="label-marker" style="background:#9b2335">5</span>
+        <input class="label-input" id="diag18-5" placeholder="Escreve ou clica no termo..." data-answer="Folículo piloso">
+      </div>
+      <div class="label-row">
+        <span class="label-marker" style="background:#6a4a8a">6</span>
+        <input class="label-input" id="diag18-6" placeholder="Escreve ou clica no termo..." data-answer="Glândula sebácea">
+      </div>
+      <button class="check-btn" data-checkdiagram="q18" data-prefix="diag18" data-count="6">Verificar legendas</button>
+      <div class="feedback" id="fb-q18"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BLOCO 2: FUNÇÕES DA PELE ===================== -->
+<div class="section-header">
+  <div class="section-icon">⚙️</div>
+  <h2>Bloco 2 — Funções da Pele</h2>
+  <span class="count">Perguntas 19–28</span>
+</div>
+
+<!-- Q19 MC -->
+<div class="q-card" id="q19">
+  <div class="q-number">Pergunta 19 · Escolha Múltipla</div>
+  <div class="q-text">Quando a temperatura ambiente é elevada, o organismo responde com:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q19"><span class="opt-letter">A</span>Vasoconstrição dos vasos cutâneos para conservar calor</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q19"><span class="opt-letter">B</span>Vasodilatação dos vasos cutâneos para perda de calor</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q19"><span class="opt-letter">C</span>Diminuição da atividade das glândulas sudoríparas</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q19"><span class="opt-letter">D</span>Aumento da produção de melanina</button></li>
+  </ul>
+  <div class="feedback" id="fb-q19"></div>
+</div>
+
+<!-- Q20 MC - Vitamina D -->
+<div class="q-card" id="q20">
+  <div class="q-number">Pergunta 20 · Escolha Múltipla</div>
+  <div class="q-text">Na produção de Vitamina D pela pele, qual é a sequência correta de transformações?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q20"><span class="opt-letter">A</span>Melanina → Colecalciferol → Vitamina D ativa</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q20"><span class="opt-letter">B</span>7-dehidrocolesterol → Colecalciferol → Vitamina D ativa (fígado e rins)</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q20"><span class="opt-letter">C</span>Queratina → Colecalciferol → Vitamina D ativa</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q20"><span class="opt-letter">D</span>Ceramida → 7-dehidrocolesterol → Vitamina D ativa</button></li>
+  </ul>
+  <div class="feedback" id="fb-q20"></div>
+</div>
+
+<!-- Q21 MC -->
+<div class="q-card" id="q21">
+  <div class="q-number">Pergunta 21 · Escolha Múltipla</div>
+  <div class="q-text">A Vitamina D ativa, produzida com ajuda da pele, tem como função principal:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q21"><span class="opt-letter">A</span>Produzir colagénio e elastina</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q21"><span class="opt-letter">B</span>Estimular a produção de melanina</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q21"><span class="opt-letter">C</span>Estimular a captação de cálcio e fosfatos no intestino</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q21"><span class="opt-letter">D</span>Regular a hidratação da epiderme</button></li>
+  </ul>
+  <div class="feedback" id="fb-q21"></div>
+</div>
+
+<!-- Q22 MC -->
+<div class="q-card" id="q22">
+  <div class="q-number">Pergunta 22 · Escolha Múltipla</div>
+  <div class="q-text">Através da excreção pelo suor, quais substâncias são eliminadas pelo organismo?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q22"><span class="opt-letter">A</span>Apenas água e sais minerais</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q22"><span class="opt-letter">B</span>Apenas ureia e ácido úrico</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q22"><span class="opt-letter">C</span>Água, sais, ureia, ácido úrico e amoníaco</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q22"><span class="opt-letter">D</span>Apenas CO₂ e vapor de água</button></li>
+  </ul>
+  <div class="feedback" id="fb-q22"></div>
+</div>
+
+<!-- Q23 TF -->
+<div class="q-card" id="q23">
+  <div class="q-number">Pergunta 23 · Verdadeiro ou Falso</div>
+  <div class="q-text">A pele protege o organismo contra a desidratação ao reduzir a perda de água corporal.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q23" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q23" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q23"></div>
+</div>
+
+<!-- Q24 TF -->
+<div class="q-card" id="q24">
+  <div class="q-number">Pergunta 24 · Verdadeiro ou Falso</div>
+  <div class="q-text">O corpúsculo de Vater-Pacini é sensível ao frio.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q24" data-answer="false">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q24" data-answer="true">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q24"></div>
+</div>
+
+<!-- Q25 FILL IN THE BLANK -->
+<div class="q-card" id="q25">
+  <div class="q-number">Pergunta 25 · Preenchimento de Espaços</div>
+  <div class="q-text">Completa o texto com os termos correctos. Clica nos termos para os usar.</div>
+  <div class="word-bank" id="wb-q25">
+    <span class="word-chip" data-fillblank="blank25a">vasodilatação</span>
+    <span class="word-chip" data-fillblank="blank25b">vasoconstrição</span>
+    <span class="word-chip" data-fillblank="blank25c">sudoríparas</span>
+    <span class="word-chip" data-fillblank="blank25d">melanina</span>
+    <span class="word-chip" data-fillblank="blank25e">vitamina D</span>
+    <span class="word-chip" data-fillblank="blank25f">excreção</span>
+  </div>
+  <div class="blank-text">
+    Quando o ambiente está frio, ocorre <input class="blank-input" id="blank25b" data-answer="vasoconstrição" readonly placeholder="___________"> dos vasos cutâneos para conservar calor. Quando está quente, ocorre <input class="blank-input" id="blank25a" data-answer="vasodilatação" readonly placeholder="___________"> para perder calor através da pele. As glândulas <input class="blank-input" id="blank25c" data-answer="sudoríparas" readonly placeholder="___________"> também ajudam a arrefecer o corpo. Através do suor ocorre também a <input class="blank-input" id="blank25f" data-answer="excreção" readonly placeholder="___________"> de resíduos metabólicos.
+  </div>
+  <button class="check-btn" data-checkblanks="q25" data-blanks='['blank25a','blank25b','blank25c','blank25f']'>Verificar respostas</button>
+  <div class="feedback" id="fb-q25"></div>
+</div>
+
+<!-- Q26 MC -->
+<div class="q-card" id="q26">
+  <div class="q-number">Pergunta 26 · Escolha Múltipla</div>
+  <div class="q-text">Qual das seguintes NÃO é uma função da pele?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q26"><span class="opt-letter">A</span>Proteção contra microrganismos</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q26"><span class="opt-letter">B</span>Regulação da temperatura corporal</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q26"><span class="opt-letter">C</span>Produção de hormonas do crescimento</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q26"><span class="opt-letter">D</span>Sensação (tato, calor, frio, dor)</button></li>
+  </ul>
+  <div class="feedback" id="fb-q26"></div>
+</div>
+
+<!-- Q27 TF -->
+<div class="q-card" id="q27">
+  <div class="q-number">Pergunta 27 · Verdadeiro ou Falso</div>
+  <div class="q-text">A transformação de colecalciferol em vitamina D ativa ocorre exclusivamente na pele.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q27" data-answer="false">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q27" data-answer="true">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q27"></div>
+</div>
+
+<!-- Q28 MC -->
+<div class="q-card" id="q28">
+  <div class="q-number">Pergunta 28 · Escolha Múltipla</div>
+  <div class="q-text">O corpúsculo de Ruffini é sensível a:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q28"><span class="opt-letter">A</span>Frio</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q28"><span class="opt-letter">B</span>Pressões leves</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q28"><span class="opt-letter">C</span>Estiramento da pele e calor</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q28"><span class="opt-letter">D</span>Pressão profunda</button></li>
+  </ul>
+  <div class="feedback" id="fb-q28"></div>
+</div>
+
+<!-- ===================== BLOCO 3: ENVELHECIMENTO ===================== -->
+<div class="section-header">
+  <div class="section-icon">🕰️</div>
+  <h2>Bloco 3 — Envelhecimento da Pele</h2>
+  <span class="count">Perguntas 29–40</span>
+</div>
+
+<!-- Q29 MC -->
+<div class="q-card" id="q29">
+  <div class="q-number">Pergunta 29 · Escolha Múltipla</div>
+  <div class="q-text">O envelhecimento extrínseco da pele é causado principalmente por:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q29"><span class="opt-letter">A</span>Desgaste natural do organismo com o passar dos anos</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q29"><span class="opt-letter">B</span>Exposição repetida à radiação UV solar ou artificial</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q29"><span class="opt-letter">C</span>Diminuição da produção de queratina</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q29"><span class="opt-letter">D</span>Redução do número de glândulas sudoríparas ao longo da vida</button></li>
+  </ul>
+  <div class="feedback" id="fb-q29"></div>
+</div>
+
+<!-- Q30 MC -->
+<div class="q-card" id="q30">
+  <div class="q-number">Pergunta 30 · Escolha Múltipla</div>
+  <div class="q-text">Os "lentigos" são uma manifestação do envelhecimento cutâneo que se traduz em:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q30"><span class="opt-letter">A</span>Dilatação de pequenos vasos superficiais</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q30"><span class="opt-letter">B</span>Pequenas manchas acastanhadas na pele</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q30"><span class="opt-letter">C</span>Perda acentuada de elasticidade</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q30"><span class="opt-letter">D</span>Secura intensa da pele (xerose)</button></li>
+  </ul>
+  <div class="feedback" id="fb-q30"></div>
+</div>
+
+<!-- Q31 MC -->
+<div class="q-card" id="q31">
+  <div class="q-number">Pergunta 31 · Escolha Múltipla</div>
+  <div class="q-text">Com o envelhecimento, a diminuição de ácido hialurónico na derme tem como principal consequência:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q31"><span class="opt-letter">A</span>Maior produção de melanina</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q31"><span class="opt-letter">B</span>Aumento da resistência à pressão</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q31"><span class="opt-letter">C</span>Menor capacidade de retenção de água na pele</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q31"><span class="opt-letter">D</span>Aumento da atividade das glândulas sebáceas</button></li>
+  </ul>
+  <div class="feedback" id="fb-q31"></div>
+</div>
+
+<!-- Q32 TF -->
+<div class="q-card" id="q32">
+  <div class="q-number">Pergunta 32 · Verdadeiro ou Falso</div>
+  <div class="q-text">O envelhecimento intrínseco resulta do desgaste natural do organismo com o passar dos anos, sem interferência de agentes externos.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q32" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q32" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q32"></div>
+</div>
+
+<!-- Q33 TF -->
+<div class="q-card" id="q33">
+  <div class="q-number">Pergunta 33 · Verdadeiro ou Falso</div>
+  <div class="q-text">Com o envelhecimento, a menor produção de melanina aumenta a proteção da pele contra os raios UV.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q33" data-answer="false">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q33" data-answer="true">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q33"></div>
+</div>
+
+<!-- Q34 TF -->
+<div class="q-card" id="q34">
+  <div class="q-number">Pergunta 34 · Verdadeiro ou Falso</div>
+  <div class="q-text">A xerose é o termo médico que designa a secura excessiva da pele.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q34" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q34" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q34"></div>
+</div>
+
+<!-- Q35 MC -->
+<div class="q-card" id="q35">
+  <div class="q-number">Pergunta 35 · Escolha Múltipla</div>
+  <div class="q-text">A atrofia da camada subcutânea com o envelhecimento provoca:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q35"><span class="opt-letter">A</span>Aumento da hidratação da pele</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q35"><span class="opt-letter">B</span>Flacidez e aparecimento de rugas</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q35"><span class="opt-letter">C</span>Maior resistência a traumas físicos</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q35"><span class="opt-letter">D</span>Aumento da produção de colagénio</button></li>
+  </ul>
+  <div class="feedback" id="fb-q35"></div>
+</div>
+
+<!-- Q36 MC -->
+<div class="q-card" id="q36">
+  <div class="q-number">Pergunta 36 · Escolha Múltipla</div>
+  <div class="q-text">As telangiectasias, manifestação do fotoenvelhecimento, correspondem a:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q36"><span class="opt-letter">A</span>Manchas acastanhadas da pele</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q36"><span class="opt-letter">B</span>Perda de espessura da epiderme</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q36"><span class="opt-letter">C</span>Dilatação de pequenos vasos sanguíneos superficiais</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q36"><span class="opt-letter">D</span>Depósitos de lípidos na derme</button></li>
+  </ul>
+  <div class="feedback" id="fb-q36"></div>
+</div>
+
+<!-- Q37 FILL IN THE BLANK -->
+<div class="q-card" id="q37">
+  <div class="q-number">Pergunta 37 · Preenchimento de Espaços</div>
+  <div class="q-text">Completa o texto sobre o envelhecimento da pele com os termos corretos.</div>
+  <div class="word-bank" id="wb-q37">
+    <span class="word-chip" data-fillblank="blank37a">colagénio</span>
+    <span class="word-chip" data-fillblank="blank37b">elastina</span>
+    <span class="word-chip" data-fillblank="blank37c">rugas</span>
+    <span class="word-chip" data-fillblank="blank37d">UV</span>
+    <span class="word-chip" data-fillblank="blank37e">intrínseco</span>
+    <span class="word-chip" data-fillblank="blank37f">extrínseco</span>
+  </div>
+  <div class="blank-text">
+    O envelhecimento <input class="blank-input" id="blank37e" data-answer="intrínseco" readonly placeholder="___________"> é o desgaste natural do organismo. O envelhecimento <input class="blank-input" id="blank37f" data-answer="extrínseco" readonly placeholder="___________"> é causado principalmente pela exposição à radiação <input class="blank-input" id="blank37d" data-answer="UV" readonly placeholder="_____">. A diminuição de <input class="blank-input" id="blank37a" data-answer="colagénio" readonly placeholder="___________"> e <input class="blank-input" id="blank37b" data-answer="elastina" readonly placeholder="___________"> leva ao aparecimento de <input class="blank-input" id="blank37c" data-answer="rugas" readonly placeholder="___________">.
+  </div>
+  <button class="check-btn" data-checkblanks="q37" data-blanks='['blank37a','blank37b','blank37c','blank37d','blank37e','blank37f']'>Verificar respostas</button>
+  <div class="feedback" id="fb-q37"></div>
+</div>
+
+<!-- Q38 TF -->
+<div class="q-card" id="q38">
+  <div class="q-number">Pergunta 38 · Verdadeiro ou Falso</div>
+  <div class="q-text">Com o envelhecimento, a diminuição do número de glândulas sudoríparas dificulta a regulação da temperatura corporal.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q38" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q38" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q38"></div>
+</div>
+
+<!-- Q39 TF -->
+<div class="q-card" id="q39">
+  <div class="q-number">Pergunta 39 · Verdadeiro ou Falso</div>
+  <div class="q-text">O fotoenvelhecimento amplifica o envelhecimento cronológico da pele.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q39" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q39" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q39"></div>
+</div>
+
+<!-- Q40 MC -->
+<div class="q-card" id="q40">
+  <div class="q-number">Pergunta 40 · Escolha Múltipla</div>
+  <div class="q-text">A diminuição da produção de lípidos com o envelhecimento pode originar:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q40"><span class="opt-letter">A</span>Aumento da pigmentação da pele</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q40"><span class="opt-letter">B</span>Pele mais seca e tendência para dermatites</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q40"><span class="opt-letter">C</span>Maior resistência a infeções cutâneas</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q40"><span class="opt-letter">D</span>Aumento da espessura da camada córnea</button></li>
+  </ul>
+  <div class="feedback" id="fb-q40"></div>
+</div>
+
+<!-- ===================== BLOCO 4: FERIDAS E ÚLCERAS ===================== -->
+<div class="section-header">
+  <div class="section-icon">🩹</div>
+  <h2>Bloco 4 — Feridas e Úlceras de Pressão</h2>
+  <span class="count">Perguntas 41–58</span>
+</div>
+
+<!-- Q41 MC -->
+<div class="q-card" id="q41">
+  <div class="q-number">Pergunta 41 · Escolha Múltipla</div>
+  <div class="q-text">Uma ferida crónica distingue-se de uma ferida aguda porque:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q41"><span class="opt-letter">A</span>É sempre mais profunda do que uma ferida aguda</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q41"><span class="opt-letter">B</span>Prolonga-se no tempo e não cicatriza no período expectável</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q41"><span class="opt-letter">C</span>Não causa dor nem inflamação</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q41"><span class="opt-letter">D</span>Cicatriza sem formação de tecido de granulação</button></li>
+  </ul>
+  <div class="feedback" id="fb-q41"></div>
+</div>
+
+<!-- Q42 MC - Graus úlcera -->
+<div class="q-card" id="q42">
+  <div class="q-number">Pergunta 42 · Escolha Múltipla</div>
+  <div class="q-text">Uma úlcera de pressão de Grau I caracteriza-se por:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q42"><span class="opt-letter">A</span>Escoriações ou bolhas visíveis na pele</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q42"><span class="opt-letter">B</span>Aspeto de cratera profunda sem atingir músculo</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q42"><span class="opt-letter">C</span>Vermelhidão que não embranquece quando pressionada e não desaparece após 15 minutos de alívio</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q42"><span class="opt-letter">D</span>Destruição de tecidos moles e osso</button></li>
+  </ul>
+  <div class="feedback" id="fb-q42"></div>
+</div>
+
+<!-- Q43 MC -->
+<div class="q-card" id="q43">
+  <div class="q-number">Pergunta 43 · Escolha Múltipla</div>
+  <div class="q-text">Qual dos seguintes graus de úlcera de pressão apresenta um aspeto de "cratera profunda" sem atingir o músculo?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q43"><span class="opt-letter">A</span>Grau I</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q43"><span class="opt-letter">B</span>Grau II</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q43"><span class="opt-letter">C</span>Grau III</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q43"><span class="opt-letter">D</span>Grau IV</button></li>
+  </ul>
+  <div class="feedback" id="fb-q43"></div>
+</div>
+
+<!-- Q44 MC -->
+<div class="q-card" id="q44">
+  <div class="q-number">Pergunta 44 · Escolha Múltipla</div>
+  <div class="q-text">Na úlcera de pressão de Grau IV, os danos incluem:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q44"><span class="opt-letter">A</span>Apenas a epiderme e derme</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q44"><span class="opt-letter">B</span>Tecido adiposo sem atingir músculo</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q44"><span class="opt-letter">C</span>Destruição de tecidos moles, osso e/ou estruturas articulares</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q44"><span class="opt-letter">D</span>Apenas vermelhidão sem abertura da pele</button></li>
+  </ul>
+  <div class="feedback" id="fb-q44"></div>
+</div>
+
+<!-- Q45 MC - Fatores risco -->
+<div class="q-card" id="q45">
+  <div class="q-number">Pergunta 45 · Escolha Múltipla</div>
+  <div class="q-text">Qual dos seguintes NÃO é um fator de risco para o desenvolvimento de úlcera de pressão?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q45"><span class="opt-letter">A</span>Incontinência urinária e fecal</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q45"><span class="opt-letter">B</span>Desnutrição proteica</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q45"><span class="opt-letter">C</span>Pele seca com baixo pH</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q45"><span class="opt-letter">D</span>Diminuição da mobilidade</button></li>
+  </ul>
+  <div class="feedback" id="fb-q45"></div>
+</div>
+
+<!-- Q46 MC - Reposicionamento -->
+<div class="q-card" id="q46">
+  <div class="q-number">Pergunta 46 · Escolha Múltipla</div>
+  <div class="q-text">De acordo com as recomendações, um utente acamado em risco de úlcera de pressão deve ser reposicionado pelo menos:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q46"><span class="opt-letter">A</span>A cada 30 minutos</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q46"><span class="opt-letter">B</span>A cada 4 horas</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q46"><span class="opt-letter">C</span>A cada 2 horas</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q46"><span class="opt-letter">D</span>Uma vez por turno (8 horas)</button></li>
+  </ul>
+  <div class="feedback" id="fb-q46"></div>
+</div>
+
+<!-- Q47 MC -->
+<div class="q-card" id="q47">
+  <div class="q-number">Pergunta 47 · Escolha Múltipla</div>
+  <div class="q-text">Um utente em cadeira de rodas em risco de úlcera de pressão deve mudar de posição pelo menos:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q47"><span class="opt-letter">A</span>A cada 2 horas</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q47"><span class="opt-letter">B</span>A cada 15 a 30 minutos</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q47"><span class="opt-letter">C</span>A cada 4 horas</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q47"><span class="opt-letter">D</span>Apenas quando referir desconforto</button></li>
+  </ul>
+  <div class="feedback" id="fb-q47"></div>
+</div>
+
+<!-- Q48 TF -->
+<div class="q-card" id="q48">
+  <div class="q-number">Pergunta 48 · Verdadeiro ou Falso</div>
+  <div class="q-text">As massagens nas proeminências ósseas são recomendadas para melhorar o fluxo sanguíneo e prevenir úlceras de pressão.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q48" data-answer="false">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q48" data-answer="true">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q48"></div>
+</div>
+
+<!-- Q49 TF -->
+<div class="q-card" id="q49">
+  <div class="q-number">Pergunta 49 · Verdadeiro ou Falso</div>
+  <div class="q-text">A humidade da pele, por exemplo causada por incontinência, aumenta o risco de desenvolvimento de úlcera de pressão.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q49" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q49" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q49"></div>
+</div>
+
+<!-- Q50 TF -->
+<div class="q-card" id="q50">
+  <div class="q-number">Pergunta 50 · Verdadeiro ou Falso</div>
+  <div class="q-text">A Escala de Braden é um instrumento usado para avaliar o risco de desenvolvimento de úlceras de pressão.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q50" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q50" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q50"></div>
+</div>
+
+<!-- Q51 TF -->
+<div class="q-card" id="q51">
+  <div class="q-number">Pergunta 51 · Verdadeiro ou Falso</div>
+  <div class="q-text">Na úlcera de pressão de Grau II, os danos atingem a epiderme, a derme ou ambas, podendo observar-se escoriações ou bolhas.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q51" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q51" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q51"></div>
+</div>
+
+<!-- Q52 MC -->
+<div class="q-card" id="q52">
+  <div class="q-number">Pergunta 52 · Escolha Múltipla</div>
+  <div class="q-text">Para proteger as proeminências ósseas de utentes acamados, deve usar-se:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q52"><span class="opt-letter">A</span>Ligaduras compressivas nas articulações</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q52"><span class="opt-letter">B</span>Almofadas de espuma para evitar contacto direto</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q52"><span class="opt-letter">C</span>Massagem regular nas zonas de pressão</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q52"><span class="opt-letter">D</span>Aplicação de pomada antibiótica preventiva</button></li>
+  </ul>
+  <div class="feedback" id="fb-q52"></div>
+</div>
+
+<!-- Q53 MC -->
+<div class="q-card" id="q53">
+  <div class="q-number">Pergunta 53 · Escolha Múltipla</div>
+  <div class="q-text">Para reduzir os danos causados pela fricção na pele de utentes dependentes, pode recorrer-se a:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="true" data-qid="q53"><span class="opt-letter">A</span>Películas protetoras, curativos transparentes ou hidrocolóides extrafinos</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q53"><span class="opt-letter">B</span>Massagem com álcool nas zonas de pressão</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q53"><span class="opt-letter">C</span>Aplicação de talco para absorver a humidade</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q53"><span class="opt-letter">D</span>Exposição da pele ao sol para cicatrizar</button></li>
+  </ul>
+  <div class="feedback" id="fb-q53"></div>
+</div>
+
+<!-- Q54 DESENVOLVIMENTO -->
+<div class="q-card" id="q54">
+  <div class="q-number">Pergunta 54 · Desenvolvimento</div>
+  <div class="q-text">Descreve os 4 graus de classificação das úlceras de pressão, indicando para cada um o que acontece aos tecidos e o aspeto clínico observado.</div>
+  <textarea class="dev-textarea" placeholder="Escreve a tua resposta aqui..."></textarea>
+  <button class="reveal-btn" data-toggle="ans-q54">Ver resposta modelo</button>
+  <div class="answer-box" id="ans-q54">
+    <strong>📋 Resposta Modelo</strong>
+    <b>Grau I:</b> Não há abertura da pele. A vermelhidão não embranquece quando pressionada e não desaparece ao fim de 15 minutos após alívio da pressão. Sinal de alerta precoce.<br><br>
+    <b>Grau II:</b> Os danos atingem a epiderme, a derme ou ambas. Clinicamente observam-se escoriações ou bolhas. A pele em redor pode estar vermelha.<br><br>
+    <b>Grau III:</b> Os danos estendem-se por todas as camadas superficiais da pele e pelo tecido adiposo, sem atingir o músculo. A úlcera tem aspeto de cratera profunda.<br><br>
+    <b>Grau IV:</b> Os danos incluem a destruição de estruturas de tecidos moles, osso ou estruturas articulares. É o grau mais grave e de difícil tratamento.
+  </div>
+</div>
+
+<!-- Q55 MC -->
+<div class="q-card" id="q55">
+  <div class="q-number">Pergunta 55 · Escolha Múltipla</div>
+  <div class="q-text">Na avaliação de uma ferida, qual dos seguintes elementos NÃO é habitualmente avaliado?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q55"><span class="opt-letter">A</span>Localização, forma e profundidade</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q55"><span class="opt-letter">B</span>Presença de tecido necrótico e exsudação</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q55"><span class="opt-letter">C</span>Tipo sanguíneo do utente</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q55"><span class="opt-letter">D</span>Estado de nutrição do utente</button></li>
+  </ul>
+  <div class="feedback" id="fb-q55"></div>
+</div>
+
+<!-- Q56 TF -->
+<div class="q-card" id="q56">
+  <div class="q-number">Pergunta 56 · Verdadeiro ou Falso</div>
+  <div class="q-text">A hipertermia é considerada um fator de risco para o desenvolvimento de úlceras de pressão.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q56" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q56" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q56"></div>
+</div>
+
+<!-- Q57 TF -->
+<div class="q-card" id="q57">
+  <div class="q-number">Pergunta 57 · Verdadeiro ou Falso</div>
+  <div class="q-text">O tabagismo aumenta o risco de desenvolvimento de úlceras de pressão.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q57" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q57" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q57"></div>
+</div>
+
+<!-- Q58 MC -->
+<div class="q-card" id="q58">
+  <div class="q-number">Pergunta 58 · Escolha Múltipla</div>
+  <div class="q-text">Qual é o conceito correto de "ferida"?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q58"><span class="opt-letter">A</span>Apenas lesões profundas que atingem o músculo</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q58"><span class="opt-letter">B</span>Qualquer solução de descontinuidade da superfície da pele, superficial ou profunda</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q58"><span class="opt-letter">C</span>Somente lesões causadas por acidentes ou traumatismos externos</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q58"><span class="opt-letter">D</span>Lesões que nunca cicatrizam espontaneamente</button></li>
+  </ul>
+  <div class="feedback" id="fb-q58"></div>
+</div>
+
+<!-- ===================== BLOCO 5: CICATRIZAÇÃO ===================== -->
+<div class="section-header">
+  <div class="section-icon">🔄</div>
+  <h2>Bloco 5 — Fisiologia da Cicatrização</h2>
+  <span class="count">Perguntas 59–75</span>
+</div>
+
+<!-- Q59 MC -->
+<div class="q-card" id="q59">
+  <div class="q-number">Pergunta 59 · Escolha Múltipla</div>
+  <div class="q-text">Qual é o objetivo único do processo de cicatrização?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q59"><span class="opt-letter">A</span>Eliminar as bactérias presentes na ferida</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q59"><span class="opt-letter">B</span>Restabelecer a integridade da pele</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q59"><span class="opt-letter">C</span>Produzir novo colagénio idêntico ao original</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q59"><span class="opt-letter">D</span>Aumentar a espessura da epiderme</button></li>
+  </ul>
+  <div class="feedback" id="fb-q59"></div>
+</div>
+
+<!-- Q60 MC - Fases -->
+<div class="q-card" id="q60">
+  <div class="q-number">Pergunta 60 · Escolha Múltipla</div>
+  <div class="q-text">Quais são as três fases do processo de cicatrização, pela ordem correta?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q60"><span class="opt-letter">A</span>Proliferativa → Inflamatória → Maturação</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q60"><span class="opt-letter">B</span>Inflamatória → Proliferativa → Maturação</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q60"><span class="opt-letter">C</span>Maturação → Inflamatória → Proliferativa</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q60"><span class="opt-letter">D</span>Inflamatória → Maturação → Proliferativa</button></li>
+  </ul>
+  <div class="feedback" id="fb-q60"></div>
+</div>
+
+<!-- Q61 MC -->
+<div class="q-card" id="q61">
+  <div class="q-number">Pergunta 61 · Escolha Múltipla</div>
+  <div class="q-text">Na fase inflamatória da cicatrização, os neutrófilos chegam à ferida aproximadamente:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q61"><span class="opt-letter">A</span>Imediatamente após a lesão</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q61"><span class="opt-letter">B</span>24 horas após o trauma</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q61"><span class="opt-letter">C</span>48 a 96 horas após a lesão</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q61"><span class="opt-letter">D</span>4 dias após a lesão</button></li>
+  </ul>
+  <div class="feedback" id="fb-q61"></div>
+</div>
+
+<!-- Q62 MC -->
+<div class="q-card" id="q62">
+  <div class="q-number">Pergunta 62 · Escolha Múltipla</div>
+  <div class="q-text">Os macrófagos migram para a ferida entre:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q62"><span class="opt-letter">A</span>0 e 12 horas após a lesão</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q62"><span class="opt-letter">B</span>24 e 36 horas após a lesão</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q62"><span class="opt-letter">C</span>48 e 96 horas após a lesão</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q62"><span class="opt-letter">D</span>7 e 14 dias após a lesão</button></li>
+  </ul>
+  <div class="feedback" id="fb-q62"></div>
+</div>
+
+<!-- Q63 MC - Fase proliferativa -->
+<div class="q-card" id="q63">
+  <div class="q-number">Pergunta 63 · Escolha Múltipla</div>
+  <div class="q-text">Na fase proliferativa, qual célula sintetiza colagénio e promove a contração da ferida?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q63"><span class="opt-letter">A</span>Neutrófilo</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q63"><span class="opt-letter">B</span>Macrófago</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q63"><span class="opt-letter">C</span>Fibroblasto</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q63"><span class="opt-letter">D</span>Queratinócito</button></li>
+  </ul>
+  <div class="feedback" id="fb-q63"></div>
+</div>
+
+<!-- Q64 MC -->
+<div class="q-card" id="q64">
+  <div class="q-number">Pergunta 64 · Escolha Múltipla</div>
+  <div class="q-text">A fase de maturação da cicatrização pode durar:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q64"><span class="opt-letter">A</span>Apenas alguns dias</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q64"><span class="opt-letter">B</span>Até 2 semanas</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q64"><span class="opt-letter">C</span>1 ano ou mais</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q64"><span class="opt-letter">D</span>Exatamente 3 meses</button></li>
+  </ul>
+  <div class="feedback" id="fb-q64"></div>
+</div>
+
+<!-- Q65 TF -->
+<div class="q-card" id="q65">
+  <div class="q-number">Pergunta 65 · Verdadeiro ou Falso</div>
+  <div class="q-text">A deficiência de vitamina C é a hipovitaminose mais comumente associada à falência da cicatrização de feridas.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q65" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q65" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q65"></div>
+</div>
+
+<!-- Q66 TF -->
+<div class="q-card" id="q66">
+  <div class="q-number">Pergunta 66 · Verdadeiro ou Falso</div>
+  <div class="q-text">A anemia interfere sempre no processo de cicatrização, independentemente do valor do hematócrito.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q66" data-answer="false">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q66" data-answer="true">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q66"></div>
+</div>
+
+<!-- Q67 MC -->
+<div class="q-card" id="q67">
+  <div class="q-number">Pergunta 67 · Escolha Múltipla</div>
+  <div class="q-text">Os corticosteroides interferem na cicatrização porque:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q67"><span class="opt-letter">A</span>Aumentam a produção de colagénio</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q67"><span class="opt-letter">B</span>Diminuem a resposta imune e interferem na síntese proteica e produção de colagénio</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q67"><span class="opt-letter">C</span>Promovem a vasodilatação excessiva na ferida</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q67"><span class="opt-letter">D</span>Eliminam os fibroblastos da ferida</button></li>
+  </ul>
+  <div class="feedback" id="fb-q67"></div>
+</div>
+
+<!-- Q68 MC -->
+<div class="q-card" id="q68">
+  <div class="q-number">Pergunta 68 · Escolha Múltipla</div>
+  <div class="q-text">As feridas em áreas de maior mobilidade (cotovelos, nádegas, joelhos) cicatrizam:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q68"><span class="opt-letter">A</span>Mais rapidamente devido ao aumento de circulação</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q68"><span class="opt-letter">B</span>Mais lentamente devido à tensão e mobilidade</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q68"><span class="opt-letter">C</span>Da mesma forma que qualquer outra área do corpo</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q68"><span class="opt-letter">D</span>Mais rapidamente por serem zonas mais oxigenadas</button></li>
+  </ul>
+  <div class="feedback" id="fb-q68"></div>
+</div>
+
+<!-- Q69 TF -->
+<div class="q-card" id="q69">
+  <div class="q-number">Pergunta 69 · Verdadeiro ou Falso</div>
+  <div class="q-text">A infeção numa ferida prolonga a fase inflamatória e interfere com a epitelização, contração e deposição de colagénio.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q69" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q69" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q69"></div>
+</div>
+
+<!-- Q70 TF -->
+<div class="q-card" id="q70">
+  <div class="q-number">Pergunta 70 · Verdadeiro ou Falso</div>
+  <div class="q-text">A hiperatividade do utente favorece a cicatrização ao promover a circulação sanguínea.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q70" data-answer="false">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q70" data-answer="true">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q70"></div>
+</div>
+
+<!-- Q71 FILL IN THE BLANK -->
+<div class="q-card" id="q71">
+  <div class="q-number">Pergunta 71 · Preenchimento de Espaços</div>
+  <div class="q-text">Completa o texto sobre as fases de cicatrização.</div>
+  <div class="word-bank" id="wb-q71">
+    <span class="word-chip" data-fillblank="blank71a">plaquetas</span>
+    <span class="word-chip" data-fillblank="blank71b">neutrófilos</span>
+    <span class="word-chip" data-fillblank="blank71c">macrófagos</span>
+    <span class="word-chip" data-fillblank="blank71d">fibroblastos</span>
+    <span class="word-chip" data-fillblank="blank71e">colagénio</span>
+    <span class="word-chip" data-fillblank="blank71f">fibrina</span>
+  </div>
+  <div class="blank-text">
+    Após a lesão, as <input class="blank-input" id="blank71a" data-answer="plaquetas" readonly placeholder="___________"> ativam a coagulação formando uma rede de <input class="blank-input" id="blank71f" data-answer="fibrina" readonly placeholder="___________">. Às 24 horas chegam os <input class="blank-input" id="blank71b" data-answer="neutrófilos" readonly placeholder="___________"> para destruir bactérias. Depois chegam os <input class="blank-input" id="blank71c" data-answer="macrófagos" readonly placeholder="___________"> entre as 48 e 96 horas. Na fase proliferativa, os <input class="blank-input" id="blank71d" data-answer="fibroblastos" readonly placeholder="___________"> sintetizam <input class="blank-input" id="blank71e" data-answer="colagénio" readonly placeholder="___________">.
+  </div>
+  <button class="check-btn" data-checkblanks="q71" data-blanks='['blank71a','blank71b','blank71c','blank71d','blank71e','blank71f']'>Verificar respostas</button>
+  <div class="feedback" id="fb-q71"></div>
+</div>
+
+<!-- Q72 MC -->
+<div class="q-card" id="q72">
+  <div class="q-number">Pergunta 72 · Escolha Múltipla</div>
+  <div class="q-text">A acumulação de sangue na ferida (hemorragia) retarda a cicatrização porque:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q72"><span class="opt-letter">A</span>Elimina os fibroblastos necessários para a reparação</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q72"><span class="opt-letter">B</span>Propicia a acumulação de células mortas, hematomas e isquemia, causando dor</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q72"><span class="opt-letter">C</span>Impede a chegada de neutrófilos à ferida</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q72"><span class="opt-letter">D</span>Reduz o pH da ferida abaixo do nível ideal</button></li>
+  </ul>
+  <div class="feedback" id="fb-q72"></div>
+</div>
+
+<!-- Q73 DESENVOLVIMENTO -->
+<div class="q-card" id="q73">
+  <div class="q-number">Pergunta 73 · Desenvolvimento</div>
+  <div class="q-text">Explica, com base no caso clínico do manual, quais os fatores que interferem na cicatrização do Sr. António (90 anos, acamado, desnutrido, pele seca, úlcera de pressão Grau III na região sacra, incontinente).</div>
+  <textarea class="dev-textarea" placeholder="Escreve a tua resposta aqui..."></textarea>
+  <button class="reveal-btn" data-toggle="ans-q73">Ver resposta modelo</button>
+  <div class="answer-box" id="ans-q73">
+    <strong>📋 Resposta Modelo</strong>
+    <b>Fatores que interferem na cicatrização do Sr. António:</b><br><br>
+    1. <b>Desnutrição:</b> A perda de peso e catabolismo proteico dificultam e retardam o processo de cicatrização, afetando a síntese de colagénio.<br>
+    2. <b>Idade avançada (90 anos):</b> Os tecidos são menos elásticos e resistentes, a taxa de regeneração celular diminui e a cicatrização é mais lenta.<br>
+    3. <b>Incontinência:</b> A humidade constante aumenta o risco de infeção e maceração da pele envolvente, dificultando a cicatrização.<br>
+    4. <b>Pele seca:</b> Indica défice de hidratação e lípidos, comprometendo a barreira cutânea.<br>
+    5. <b>Imobilidade:</b> A pressão contínua impede a irrigação sanguínea adequada, diminuindo o oxigénio e nutrientes na ferida.<br>
+    6. <b>Grau III da úlcera:</b> Lesão profunda que envolve todas as camadas superficiais e tecido adiposo, exigindo mais tempo e recursos para cicatrizar.<br>
+    7. <b>Possível deficit de vitamina C:</b> Em utentes desnutridos, a carência de vitamina C afeta diretamente a síntese de colagénio.
+  </div>
+</div>
+
+<!-- Q74 MC -->
+<div class="q-card" id="q74">
+  <div class="q-number">Pergunta 74 · Escolha Múltipla</div>
+  <div class="q-text">O edema e a obstrução linfática dificultam a cicatrização porque:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q74"><span class="opt-letter">A</span>Aumentam a temperatura da ferida</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q74"><span class="opt-letter">B</span>Diminuem o fluxo sanguíneo e o metabolismo tecidular, facilitando a acumulação de catabolitos</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q74"><span class="opt-letter">C</span>Eliminam os macrófagos da área lesada</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q74"><span class="opt-letter">D</span>Impedem a formação de rede de fibrina</button></li>
+  </ul>
+  <div class="feedback" id="fb-q74"></div>
+</div>
+
+<!-- Q75 MC -->
+<div class="q-card" id="q75">
+  <div class="q-number">Pergunta 75 · Escolha Múltipla</div>
+  <div class="q-text">A angiogénese, que ocorre durante a fase proliferativa da cicatrização, consiste em:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q75"><span class="opt-letter">A</span>Contração da ferida pelos fibroblastos</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q75"><span class="opt-letter">B</span>Restauração da epiderme pelas células basais</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q75"><span class="opt-letter">C</span>Formação de novos capilares sanguíneos na área afetada</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q75"><span class="opt-letter">D</span>Deposição ordenada de colagénio final</button></li>
+  </ul>
+  <div class="feedback" id="fb-q75"></div>
+</div>
+
+<!-- ===================== BLOCO 6: HIGIENE E CUIDADOS ===================== -->
+<div class="section-header">
+  <div class="section-icon">🧴</div>
+  <h2>Bloco 6 — Cuidados de Higiene e Integridade Cutânea</h2>
+  <span class="count">Perguntas 76–85</span>
+</div>
+
+<!-- Q76 MC -->
+<div class="q-card" id="q76">
+  <div class="q-number">Pergunta 76 · Escolha Múltipla</div>
+  <div class="q-text">Na prestação de cuidados de higiene a utentes dependentes, a frequência de limpeza da pele deve ser:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q76"><span class="opt-letter">A</span>Sempre igual para todos os utentes, uma vez por turno</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q76"><span class="opt-letter">B</span>Individualizada de acordo com a necessidade ou preferência do utente</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q76"><span class="opt-letter">C</span>Apenas quando o utente apresentar sinais visíveis de sujidade</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q76"><span class="opt-letter">D</span>Determinada exclusivamente pelo médico responsável</button></li>
+  </ul>
+  <div class="feedback" id="fb-q76"></div>
+</div>
+
+<!-- Q77 TF -->
+<div class="q-card" id="q77">
+  <div class="q-number">Pergunta 77 · Verdadeiro ou Falso</div>
+  <div class="q-text">A diabetes e a insuficiência vascular periférica são doenças crónicas que afetam diretamente a integridade cutânea e a capacidade de cicatrização.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q77" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q77" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q77"></div>
+</div>
+
+<!-- Q78 MC -->
+<div class="q-card" id="q78">
+  <div class="q-number">Pergunta 78 · Escolha Múltipla</div>
+  <div class="q-text">Qual das seguintes medidas é INCORRETA nos cuidados com a pele de utentes dependentes?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q78"><span class="opt-letter">A</span>Aplicar cremes hidratantes na pele seca</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q78"><span class="opt-letter">B</span>Massajar vigorosamente as proeminências ósseas para estimular a circulação</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q78"><span class="opt-letter">C</span>Minimizar a exposição da pele à humidade causada por incontinência</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q78"><span class="opt-letter">D</span>Usar técnicas corretas de transferência para reduzir a fricção</button></li>
+  </ul>
+  <div class="feedback" id="fb-q78"></div>
+</div>
+
+<!-- Q79 TF -->
+<div class="q-card" id="q79">
+  <div class="q-number">Pergunta 79 · Verdadeiro ou Falso</div>
+  <div class="q-text">Uma boa alimentação e hidratação são fatores importantes para a manutenção da integridade cutânea.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q79" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q79" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q79"></div>
+</div>
+
+<!-- Q80 MC -->
+<div class="q-card" id="q80">
+  <div class="q-number">Pergunta 80 · Escolha Múltipla</div>
+  <div class="q-text">Para prevenir úlceras de pressão num utente com incontinência, deve-se:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q80"><span class="opt-letter">A</span>Reduzir a ingestão de líquidos para diminuir a incontinência</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q80"><span class="opt-letter">B</span>Usar fraldas descartáveis que mantenham seca a superfície em contacto com a pele</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q80"><span class="opt-letter">C</span>Massajar a região sacra após cada episódio de incontinência</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q80"><span class="opt-letter">D</span>Aplicar talco para absorver a humidade diretamente na pele</button></li>
+  </ul>
+  <div class="feedback" id="fb-q80"></div>
+</div>
+
+<!-- Q81 TF -->
+<div class="q-card" id="q81">
+  <div class="q-number">Pergunta 81 · Verdadeiro ou Falso</div>
+  <div class="q-text">A mobilidade e a alternância de posicionamentos são medidas importantes para prevenir o aparecimento de lesões por pressão.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q81" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q81" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q81"></div>
+</div>
+
+<!-- Q82 MC -->
+<div class="q-card" id="q82">
+  <div class="q-number">Pergunta 82 · Escolha Múltipla</div>
+  <div class="q-text">Qual das seguintes opções está relacionada com a manutenção de um ambiente seguro para prevenir lesões cutâneas?</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q82"><span class="opt-letter">A</span>Aumentar a temperatura do quarto para evitar vasoconstrição</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q82"><span class="opt-letter">B</span>Redução do risco de queda e de acidentes</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q82"><span class="opt-letter">C</span>Deixar a pele exposta ao ar durante longos períodos</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q82"><span class="opt-letter">D</span>Usar vestuário apertado para estimular a circulação</button></li>
+  </ul>
+  <div class="feedback" id="fb-q82"></div>
+</div>
+
+<!-- Q83 TF -->
+<div class="q-card" id="q83">
+  <div class="q-number">Pergunta 83 · Verdadeiro ou Falso</div>
+  <div class="q-text">O controlo adequado da diabetes contribui diretamente para a manutenção da integridade cutânea e para uma melhor cicatrização.</div>
+  <div class="tf-row">
+    <button class="tf-btn" data-qid="q83" data-answer="true">✓ Verdadeiro</button>
+    <button class="tf-btn" data-qid="q83" data-answer="false">✗ Falso</button>
+  </div>
+  <div class="feedback" id="fb-q83"></div>
+</div>
+
+<!-- Q84 DESENVOLVIMENTO -->
+<div class="q-card" id="q84">
+  <div class="q-number">Pergunta 84 · Desenvolvimento</div>
+  <div class="q-text">Enquanto TAS no turno da manhã, quais os cuidados de higiene e integridade cutânea que prestarias a um utente idoso acamado com pele seca e úlcera de pressão de Grau III na região sacra? Menciona cuidados dependentes e interdependentes.</div>
+  <textarea class="dev-textarea" placeholder="Escreve a tua resposta aqui..."></textarea>
+  <button class="reveal-btn" data-toggle="ans-q84">Ver resposta modelo</button>
+  <div class="answer-box" id="ans-q84">
+    <strong>📋 Resposta Modelo</strong>
+    <b>Cuidados dependentes (executados pelo TAS de forma autónoma):</b><br>
+    • Higiene corporal completa com produtos adequados ao tipo de pele (pH neutro ou ácido suave)<br>
+    • Aplicação de creme hidratante na pele seca<br>
+    • Muda de posição a cada 2 horas, registando em horário escrito<br>
+    • Uso de almofadas de espuma para proteger proeminências ósseas<br>
+    • Gestão da incontinência com fraldas descartáveis<br>
+    • Evitar massagens nas proeminências ósseas<br>
+    • Garantir vestuário adequado, sem pressão excessiva<br>
+    • Manter a cama sem dobras ou objetos que causem pressão<br>
+    • Observar e registar o aspeto da pele e da úlcera<br><br>
+    <b>Cuidados interdependentes (em colaboração com o enfermeiro/médico):</b><br>
+    • Penso da úlcera de pressão (conforme protocolo e prescrição)<br>
+    • Colaboração na avaliação pela Escala de Braden<br>
+    • Apoio na nutrição e hidratação (conforme plano prescrito)<br>
+    • Participação na mobilização com equipamento adequado (ex.: cinto de transferência)<br>
+    • Comunicação de alterações no aspeto da ferida ou da pele
+  </div>
+</div>
+
+<!-- Q85 MC -->
+<div class="q-card" id="q85">
+  <div class="q-number">Pergunta 85 · Escolha Múltipla</div>
+  <div class="q-text">Um horário escrito de reposicionamento é importante porque:</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="q85"><span class="opt-letter">A</span>É exigido por lei para todos os serviços de saúde</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="q85"><span class="opt-letter">B</span>Garante que o reposicionamento seja sistemático e não seja esquecido</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q85"><span class="opt-letter">C</span>Substitui a avaliação clínica do risco de úlcera de pressão</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="q85"><span class="opt-letter">D</span>Permite reduzir o número de profissionais necessários no turno</button></li>
+  </ul>
+  <div class="feedback" id="fb-q85"></div>
+</div>
+
+<!-- RESULTADO FINAL -->
+<div id="final-result">
+  <h2>Ficha Concluída!</h2>
+  <div class="big-score" id="final-score">—</div>
+  <p id="final-msg">Continua a estudar para garantir o melhor resultado no teste!</p>
+  <button class="restart-btn" onclick="location.reload()">Recomeçar</button>
+</div>
+
+</main>
+
+<script>
+  // ─── STATE ───────────────────────────────────────────────────────────────
+  const TOTAL_SCORED = 85; // all questions count
+  let answered = 0;
+  let correct = 0;
+
+  // Track answered status per question
+  const answeredQ = {};
+
+  function updateProgress() {
+    const fill = document.getElementById('progressFill');
+    const text = document.getElementById('progressText');
+    const score = document.getElementById('score-display');
+    const pct = Math.round((answered / TOTAL_SCORED) * 100);
+    fill.style.width = pct + '%';
+    text.textContent = answered + ' / ' + TOTAL_SCORED;
+    score.textContent = '✓ ' + correct;
+    if (answered >= TOTAL_SCORED) showFinal();
+  }
+
+  // ─── MULTIPLE CHOICE ─────────────────────────────────────────────────────
+  const MC_FEEDBACK = {
+    'q1': 'A pele ocupa quase 2 m² e pesa entre 4 e 9 kg — é o maior órgão do corpo humano.',
+    'q2': 'A pele tem três camadas: Epiderme (exterior), Derme (intermédia) e Hipoderme/tecido subcutâneo (interior).',
+    'q3': 'Os melanócitos produzem melanina, o pigmento responsável pela cor da pele e pela proteção UV.',
+    'q4': 'As células de Langerhans são células de defesa imunológica presentes na epiderme.',
+    'q5': 'A camada basal é a mais profunda da epiderme, em contacto com a derme, onde ocorre a multiplicação dos queratinócitos.',
+    'q6': 'A renovação completa da epiderme (descamação) demora aproximadamente 1 mês.',
+    'q7': 'O filme hidrolipídico tem pH ligeiramente ácido, entre 5,4 e 5,9, o que protege contra bactérias e fungos.',
+    'q8': 'As fibras de colagénio conferem resistência e as de elastina conferem elasticidade à pele.',
+    'q9': 'O corpúsculo de Krause é sensível ao frio. Ruffini = calor/estiramento; Pacini = pressão profunda; Meissner = pressão leve.',
+    'q10': 'A hipoderme é composta por adipócitos (células de gordura) que atuam como reservatório energético, isolante térmico e proteção física.',
+    'q11': 'As glândulas apócrinas estão nas axilas, região genital, umbigo e orelhas. As écrinas estão por todo o corpo.',
+    'q12': 'As glândulas sebáceas estão ausentes nas palmas das mãos e plantas dos pés.',
+    'q19': 'Com calor ocorre vasodilatação para perda de calor. Com frio ocorre vasoconstrição para conservar calor.',
+    'q20': 'Luz UV → 7-dehidrocolesterol (pele) → colecalciferol → Vitamina D ativa (fígado e rins).',
+    'q21': 'A Vitamina D ativa estimula a captação de cálcio e fosfatos no intestino, essencial para os ossos, nervos e músculos.',
+    'q22': 'O suor elimina água, sais (NaCl), ureia, ácido úrico e amoníaco.',
+    'q26': 'A pele não produz hormonas do crescimento. As suas funções são: proteção, sensação, regulação térmica, produção de vit. D e excreção.',
+    'q28': 'Os corpúsculos de Ruffini são sensíveis ao estiramento da pele e ao calor.',
+    'q29': 'O envelhecimento extrínseco (fotoenvelhecimento) é causado principalmente pela exposição repetida à radiação UV.',
+    'q30': 'Os lentigos são pequenas manchas acastanhadas típicas do envelhecimento/fotoenvelhecimento.',
+    'q31': 'O ácido hialurónico tem grande capacidade de retenção de água. A sua diminuição causa desidratação cutânea.',
+    'q35': 'A atrofia da hipoderme reduz o suporte e amortecimento da pele, causando flacidez e rugas.',
+    'q36': 'As telangiectasias são dilatações de pequenos vasos sanguíneos superficiais, visíveis na pele.',
+    'q40': 'A diminuição de lípidos compromete a barreira cutânea, causando pele seca e predisposição para dermatites.',
+    'q41': 'Uma ferida crónica é aquela que não cicatriza no período expectável e se prolonga no tempo.',
+    'q42': 'Grau I: vermelhidão sem abertura da pele, que não embranquece sob pressão e não desaparece em 15 min após alívio.',
+    'q43': 'Grau III: cratera profunda que atinge todas as camadas superficiais e tecido adiposo, sem atingir músculo.',
+    'q44': 'Grau IV é o mais grave: destrói tecidos moles, osso e/ou estruturas articulares.',
+    'q45': 'A pele seca com baixo pH não é fator de risco para úlcera. Os restantes (incontinência, desnutrição, imobilidade) são fatores de risco reconhecidos.',
+    'q46': 'Utentes acamados em risco devem ser reposicionados pelo menos a cada 2 horas.',
+    'q47': 'Utentes em cadeira de rodas em risco devem mudar de posição a cada 15 a 30 minutos.',
+    'q52': 'As almofadas de espuma são usadas para proteger as proeminências ósseas (joelhos, calcanhares) do contacto direto.',
+    'q53': 'Para reduzir a fricção usam-se películas protetoras, curativos transparentes ou hidrocolóides extrafinos.',
+    'q55': 'O tipo sanguíneo não é avaliado na avaliação da ferida. Avalia-se localização, profundidade, bordos, exsudação, nutrição, etc.',
+    'q58': 'Ferida é qualquer solução de descontinuidade da superfície da pele — pode ser superficial ou profunda.',
+    'q59': 'O objetivo único do processo de cicatrização é restabelecer a integridade da pele.',
+    'q60': 'As fases são sempre: 1ª Inflamatória → 2ª Proliferativa → 3ª Maturação.',
+    'q61': 'Os neutrófilos chegam às 24 horas após o trauma. Os macrófagos chegam depois, entre as 48 e 96 horas.',
+    'q62': 'Os macrófagos migram para a ferida entre as 48 e as 96 horas após a lesão.',
+    'q63': 'Os fibroblastos são as células responsáveis por sintetizar colagénio e promover a contração da ferida na fase proliferativa.',
+    'q64': 'A fase de maturação começa 2-3 semanas após a lesão e pode durar 1 ano ou mais.',
+    'q67': 'Os corticosteroides, quimioterápicos e radioterapia diminuem a resposta imune e interferem na síntese proteica e produção de colagénio.',
+    'q68': 'Áreas de maior mobilidade e tensão (cotovelos, nádegas, joelhos) têm cicatrização mais lenta.',
+    'q72': 'A hemorragia acumula células mortas, hematomas e isquemia, causando dor e retardando a cicatrização.',
+    'q74': 'O edema e obstrução linfática diminuem o fluxo sanguíneo e o metabolismo, acumulando catabolitos.',
+    'q75': 'Angiogénese = formação de novos capilares sanguíneos, garantindo vascularização da área em cicatrização.',
+    'q76': 'A frequência da higiene deve ser individualizada conforme a necessidade ou preferência de cada utente.',
+    'q78': 'Massagens nas proeminências ósseas estão CONTRAINDICADAS — podem causar mais danos, segundo evidências atuais.',
+    'q80': 'Fraldas descartáveis adequadas mantêm a pele seca, reduzindo o risco de maceração e úlcera.',
+    'q82': 'A redução do risco de quedas e acidentes é uma medida de manutenção de ambiente seguro.',
+    'q85': 'O horário escrito garante que o reposicionamento seja sistemático e não seja esquecido por nenhum profissional.'
+  };
+
+  function answerMC(btn, qId, isCorrect) {
+    if (answeredQ[qId]) return;
+    answeredQ[qId] = true;
+    answered++;
+    
+    const card = document.getElementById(qId);
+    const allBtns = card.querySelectorAll('.option-btn');
+    allBtns.forEach(b => b.disabled = true);
+
+    const fb = document.getElementById('fb-' + qId);
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      correct++;
+      fb.className = 'feedback show correct-fb';
+      fb.innerHTML = '<strong>✅ Correto!</strong>' + (MC_FEEDBACK[qId] ? MC_FEEDBACK[qId] : '');
+    } else {
+      btn.classList.add('wrong');
+      // Highlight correct answer
+      allBtns.forEach(b => {
+        if (b.dataset.correct === 'true') b.classList.add('correct');
+      });
+      fb.className = 'feedback show wrong-fb';
+      fb.innerHTML = '<strong>❌ Incorreto.</strong>' + (MC_FEEDBACK[qId] ? ' ' + MC_FEEDBACK[qId] : '');
+    }
+    updateProgress();
+    setTimeout(() => {
+      const el = document.getElementById('fb-' + qId);
+      if (el) el.scrollIntoView({ block: 'nearest' });
+    }, 50);
+  }
+
+  // ─── TRUE / FALSE ─────────────────────────────────────────────────────────
+  const TF_FEEDBACK = {
+    'q13': 'FALSO. A epiderme NÃO possui vasos sanguíneos. Os nutrientes chegam por difusão a partir dos vasos da derme.',
+    'q14': 'VERDADEIRO. A camada córnea tem cerca de 20 camadas de células mortas que descamam ciclicamente.',
+    'q15': 'VERDADEIRO. No couro cabeludo existem 100 a 150 mil cabelos, perdendo-se 70 a 100 por dia, renovados ciclicamente.',
+    'q16': 'FALSO. O caroteno NÃO é sintetizado pelo organismo — é adquirido obrigatoriamente através da alimentação.',
+    'q17': 'FALSO. A camada papilar é de tecido conjuntivo LAXO. É a camada reticular que é densa, com predomínio de colagénio.',
+    'q23': 'VERDADEIRO. A pele reduz a perda de água corporal, protegendo o organismo da desidratação.',
+    'q24': 'FALSO. O corpúsculo de Vater-Pacini é sensível à PRESSÃO PROFUNDA. O de Krause é que é sensível ao frio.',
+    'q27': 'FALSO. O colecalciferol é modificado no FÍGADO e nos RINS para formar a vitamina D ativa, não apenas na pele.',
+    'q32': 'VERDADEIRO. O envelhecimento intrínseco é o desgaste natural do organismo sem interferência de fatores externos.',
+    'q33': 'FALSO. A menor produção de melanina REDUZ a proteção UV, tornando a pele mais vulnerável ao sol.',
+    'q34': 'VERDADEIRO. Xerose é o termo técnico para a secura cutânea excessiva.',
+    'q38': 'VERDADEIRO. Com menos glândulas sudoríparas e menor circulação, a regulação térmica fica comprometida.',
+    'q39': 'VERDADEIRO. O fotoenvelhecimento amplifica o envelhecimento cronológico (intrínseco), acelerando os sinais da pele envelhecida.',
+    'q48': 'FALSO. As evidências atuais indicam que massagens nas proeminências ósseas podem causar MAIS DANOS, devendo ser evitadas.',
+    'q49': 'VERDADEIRO. A humidade causada pela incontinência macera a pele e aumenta significativamente o risco de úlcera de pressão.',
+    'q50': 'VERDADEIRO. A Escala de Braden avalia vários fatores de risco para úlcera de pressão e é amplamente utilizada na prática clínica.',
+    'q51': 'VERDADEIRO. Na úlcera de pressão de Grau II, os danos atingem a epiderme e/ou derme, com escoriações ou bolhas visíveis.',
+    'q56': 'VERDADEIRO. A hipertermia aumenta o metabolismo celular e a exigência de oxigénio, aumentando o risco de úlcera de pressão.',
+    'q57': 'VERDADEIRO. O tabagismo compromete a circulação e a oxigenação dos tecidos, aumentando o risco de úlcera de pressão.',
+    'q65': 'VERDADEIRO. O défice de vitamina C (ácido ascórbico) é a hipovitaminose mais associada à falência da cicatrização, por afetar a síntese de colagénio.',
+    'q66': 'FALSO. A anemia só interfere significativamente na cicatrização se o hematócrito estiver abaixo de 15%.',
+    'q69': 'VERDADEIRO. A infeção prolonga a fase inflamatória e interfere com a epitelização, contração e deposição de colagénio.',
+    'q70': 'FALSO. A hiperatividade dificulta a aproximação dos bordos da ferida. O REPOUSO favorece a cicatrização.',
+    'q77': 'VERDADEIRO. Tanto a diabetes como a insuficiência vascular periférica comprometem a circulação e a cicatrização.',
+    'q79': 'VERDADEIRO. A nutrição e hidratação adequadas são fundamentais para manter a integridade cutânea e favorecer a cicatrização.',
+    'q81': 'VERDADEIRO. A mobilização e a alternância de posicionamentos são as principais medidas de prevenção das úlceras de pressão.',
+    'q83': 'VERDADEIRO. O controlo da glicemia na diabetes melhora a função vascular e imunológica, favorecendo a integridade da pele.'
+  };
+
+  function answerTF(btn, qId, isCorrect) {
+    if (answeredQ[qId]) return;
+    answeredQ[qId] = true;
+    answered++;
+
+    const card = document.getElementById(qId);
+    const allBtns = card.querySelectorAll('.tf-btn');
+    allBtns.forEach(b => b.disabled = true);
+
+    const fb = document.getElementById('fb-' + qId);
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      correct++;
+      fb.className = 'feedback show correct-fb';
+      fb.innerHTML = '<strong>✅ Correto!</strong> ' + (TF_FEEDBACK[qId] || '');
+    } else {
+      btn.classList.add('wrong');
+      allBtns.forEach(b => {
+        if (b !== btn) b.classList.add('correct');
+      });
+      fb.className = 'feedback show wrong-fb';
+      fb.innerHTML = '<strong>❌ Incorreto.</strong> ' + (TF_FEEDBACK[qId] || '');
+    }
+    updateProgress();
+    setTimeout(() => { if (fb) fb.scrollIntoView({ block: 'nearest' }); }, 50);
+  }
+
+  // ─── DEVELOPMENT ────────────────────────────────────────────────────────
+  function toggleAnswer(id) {
+    const box = document.getElementById(id);
+    const qId = id.replace('ans-', '');
+    box.classList.toggle('show');
+    if (box.classList.contains('show') && !answeredQ[qId]) {
+      answeredQ[qId] = true;
+      answered++;
+      updateProgress();
+    }
+  }
+
+  // ─── FILL IN THE BLANK ─────────────────────────────────────────────────
+  let activeBlank = null;
+
+  function fillBlank(chip, blankId) {
+    const input = document.getElementById(blankId);
+    if (!input || input.disabled) return;
+    input.value = chip.textContent;
+    chip.classList.add('used');
+    activeBlank = null;
+  }
+
+  function checkBlanks(qId, blankIds) {
+    if (answeredQ[qId]) return;
+    answeredQ[qId] = true;
+    answered++;
+
+    let allCorrect = true;
+    let wrongCount = 0;
+
+    blankIds.forEach(id => {
+      const input = document.getElementById(id);
+      if (!input) return;
+      const val = input.value.trim().toLowerCase();
+      const ans = input.dataset.answer.trim().toLowerCase();
+      input.disabled = true;
+      if (val === ans) {
+        input.classList.add('correct-blank');
+      } else {
+        input.classList.add('wrong-blank');
+        input.placeholder = input.dataset.answer;
+        input.value = input.value || '';
+        allCorrect = false;
+        wrongCount++;
+      }
+    });
+
+    const fb = document.getElementById('fb-' + qId);
+    if (allCorrect) {
+      correct++;
+      fb.className = 'feedback show correct-fb';
+      fb.innerHTML = '<strong>✅ Todos os espaços corretos!</strong>';
+    } else {
+      fb.className = 'feedback show wrong-fb';
+      fb.innerHTML = '<strong>❌ ' + wrongCount + ' espaço(s) incorreto(s).</strong> Os campos a vermelho mostram a resposta correta no placeholder.';
+    }
+    updateProgress();
+  }
+
+  // ─── DIAGRAM LABELS ─────────────────────────────────────────────────────
+  function useChip(chip, prefix, value) {
+    // Find an empty input
+    let placed = false;
+    for (let i = 1; i <= 10; i++) {
+      const input = document.getElementById(prefix + '-' + i);
+      if (input && !input.value && !input.disabled) {
+        input.value = value;
+        placed = true;
+        break;
+      }
+    }
+  }
+
+  function checkDiagram(qId, prefix, count) {
+    if (answeredQ[qId]) return;
+    answeredQ[qId] = true;
+    answered++;
+
+    let allCorrect = true;
+    let wrongCount = 0;
+
+    for (let i = 1; i <= count; i++) {
+      const input = document.getElementById(prefix + '-' + i);
+      if (!input) continue;
+      const val = input.value.trim().toLowerCase();
+      const ans = input.dataset.answer.trim().toLowerCase();
+      input.disabled = true;
+      if (val === ans) {
+        input.classList.add('correct-blank');
+      } else {
+        input.classList.add('wrong-blank');
+        input.value = input.dataset.answer;
+        allCorrect = false;
+        wrongCount++;
+      }
+    }
+
+    const fb = document.getElementById('fb-' + qId);
+    if (allCorrect) {
+      correct++;
+      fb.className = 'feedback show correct-fb';
+      fb.innerHTML = '<strong>✅ Todas as legendas corretas!</strong>';
+    } else {
+      fb.className = 'feedback show wrong-fb';
+      fb.innerHTML = '<strong>❌ ' + wrongCount + ' legenda(s) incorreta(s).</strong> Os campos a vermelho mostram a resposta correta.';
+    }
+    updateProgress();
+  }
+
+  // ─── FINAL SCORE ────────────────────────────────────────────────────────
+  function showFinal() {
+    const result = document.getElementById('final-result');
+    const scoreEl = document.getElementById('final-score');
+    const msgEl = document.getElementById('final-msg');
+    result.style.display = 'block';
+    const pct = Math.round((correct / TOTAL_SCORED) * 100);
+    scoreEl.textContent = correct + ' / ' + TOTAL_SCORED + ' (' + pct + '%)';
+    if (pct >= 90) msgEl.textContent = '🌟 Excelente! Estás muito bem preparado(a) para o teste!';
+    else if (pct >= 75) msgEl.textContent = '👍 Bom resultado! Revê os temas onde erraste.';
+    else if (pct >= 60) msgEl.textContent = '📚 Resultado razoável. Dedica mais tempo aos temas com mais erros.';
+    else msgEl.textContent = '💪 Continua a estudar! Revê o manual com atenção e tenta novamente.';
+    result.scrollIntoView({ block: 'start' });
+  }
+
+  // Init progress
+  updateProgress();
+
+  // ─── EVENT DELEGATION (compatibilidade iOS/Safari) ──────────────────────
+  function handleInteraction(e) {
+    const target = e.target;
+
+    // option-btn (Escolha Múltipla)
+    const optBtn = target.closest('.option-btn');
+    if (optBtn && !optBtn.disabled) {
+      const qId = optBtn.dataset.qid;
+      const isCorrect = optBtn.dataset.correct === 'true';
+      if (qId) { e.preventDefault(); answerMC(optBtn, qId, isCorrect); return; }
+    }
+
+    // tf-btn (Verdadeiro / Falso)
+    const tfBtn = target.closest('.tf-btn');
+    if (tfBtn && !tfBtn.disabled) {
+      const qId = tfBtn.dataset.qid;
+      const isCorrect = tfBtn.dataset.answer === 'true';
+      if (qId) { e.preventDefault(); answerTF(tfBtn, qId, isCorrect); return; }
+    }
+
+    // reveal-btn (Desenvolvimento)
+    const revBtn = target.closest('.reveal-btn');
+    if (revBtn) {
+      const toggleId = revBtn.dataset.toggle;
+      if (toggleId) { e.preventDefault(); toggleAnswer(toggleId); return; }
+    }
+
+    // check-btn blanks (Preenchimento)
+    const checkBlanksBtn = target.closest('.check-btn[data-checkblanks]');
+    if (checkBlanksBtn) {
+      const qId = checkBlanksBtn.dataset.checkblanks;
+      const blanks = JSON.parse(checkBlanksBtn.dataset.blanks);
+      if (qId) { e.preventDefault(); checkBlanks(qId, blanks); return; }
+    }
+
+    // check-btn diagram (Legendas)
+    const checkDiagBtn = target.closest('.check-btn[data-checkdiagram]');
+    if (checkDiagBtn) {
+      const qId = checkDiagBtn.dataset.checkdiagram;
+      const prefix = checkDiagBtn.dataset.prefix;
+      const count = parseInt(checkDiagBtn.dataset.count);
+      if (qId) { e.preventDefault(); checkDiagram(qId, prefix, count); return; }
+    }
+
+    // word-chip fillBlank
+    const fillChip = target.closest('.word-chip[data-fillblank]');
+    if (fillChip && !fillChip.classList.contains('used')) {
+      const blankId = fillChip.dataset.fillblank;
+      if (blankId) { e.preventDefault(); fillBlank(fillChip, blankId); return; }
+    }
+
+    // word-chip useChip (Legendas)
+    const useChipEl = target.closest('.word-chip[data-usechip]');
+    if (useChipEl && !useChipEl.classList.contains('used')) {
+      const prefix = useChipEl.dataset.usechip;
+      const value = useChipEl.dataset.chipvalue;
+      if (prefix) { e.preventDefault(); useChip(useChipEl, prefix, value); return; }
+    }
+  }
+
+  document.addEventListener('click', handleInteraction);
+  document.addEventListener('touchend', handleInteraction, { passive: false });
+
+  // ─── BOTÃO VOLTAR AO TOPO ───────────────────────────────────────────────
+  window.addEventListener('scroll', function () {
+    const btn = document.getElementById('btn-topo');
+    if (window.scrollY > 400) {
+      btn.classList.add('visivel');
+    } else {
+      btn.classList.remove('visivel');
+    }
+  });
+</script>
+
+<button id="btn-topo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Voltar ao topo">
+  ↑ Topo
+</button>
+
+</body>
+</html>
