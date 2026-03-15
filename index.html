@@ -359,17 +359,20 @@
     background: transparent;
     font-family: inherit;
     font-size: 1rem;
-    width: 140px;
+    min-width: 120px;
     text-align: center;
     padding: 0 0.3rem;
     color: var(--text);
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, background 0.2s;
     cursor: pointer;
+    vertical-align: middle;
   }
+  .blank-input:empty::before { content: '___'; color: var(--text-muted); }
+  .blank-input.blank-ready { border-bottom-color: var(--primary); background: #e8f0ed; }
   .blank-input:focus { border-bottom-color: var(--primary); }
-  .blank-input.correct-blank { border-bottom-color: var(--correct); color: var(--correct); font-weight: 600; }
-  .blank-input.wrong-blank { border-bottom-color: var(--wrong); color: var(--wrong); }
+  .blank-input.correct-blank { border-bottom-color: var(--correct); color: var(--correct); font-weight: 600; background: var(--correct-bg); }
+  .blank-input.wrong-blank { border-bottom-color: var(--wrong); color: var(--wrong); background: var(--wrong-bg); }
   .word-bank {
     display: flex;
     flex-wrap: wrap;
@@ -964,7 +967,7 @@
     <span class="word-chip" data-chip-word="excreção">excreção</span>
   </div>
   <div class="blank-text">
-    Quando o ambiente está frio, ocorre <input class="blank-input" id="blank25b" data-answer="vasoconstrição" readonly placeholder="___________"> dos vasos cutâneos para conservar calor. Quando está quente, ocorre <input class="blank-input" id="blank25a" data-answer="vasodilatação" readonly placeholder="___________"> para perder calor através da pele. As glândulas <input class="blank-input" id="blank25c" data-answer="sudoríparas" readonly placeholder="___________"> também ajudam a arrefecer o corpo. Através do suor ocorre também a <input class="blank-input" id="blank25f" data-answer="excreção" readonly placeholder="___________"> de resíduos metabólicos.
+    Quando o ambiente está frio, ocorre <span class="blank-input" id="blank25b" data-answer="vasoconstrição" data-value="">___</span> dos vasos cutâneos para conservar calor. Quando está quente, ocorre <span class="blank-input" id="blank25a" data-answer="vasodilatação" data-value="">___</span> para perder calor através da pele. As glândulas <span class="blank-input" id="blank25c" data-answer="sudoríparas" data-value="">___</span> também ajudam a arrefecer o corpo. Através do suor ocorre também a <span class="blank-input" id="blank25f" data-answer="excreção" data-value="">___</span> de resíduos metabólicos.
   </div>
   <button class="check-btn" data-checkblanks="q25" data-blanks='["blank25a","blank25b","blank25c","blank25f"]'>Verificar respostas</button>
   <div class="feedback" id="fb-q25"></div>
@@ -1125,7 +1128,7 @@
     <span class="word-chip" data-chip-word="extrínseco">extrínseco</span>
   </div>
   <div class="blank-text">
-    O envelhecimento <input class="blank-input" id="blank37e" data-answer="intrínseco" readonly placeholder="___________"> é o desgaste natural do organismo. O envelhecimento <input class="blank-input" id="blank37f" data-answer="extrínseco" readonly placeholder="___________"> é causado principalmente pela exposição à radiação <input class="blank-input" id="blank37d" data-answer="UV" readonly placeholder="_____">. A diminuição de <input class="blank-input" id="blank37a" data-answer="colagénio" readonly placeholder="___________"> e <input class="blank-input" id="blank37b" data-answer="elastina" readonly placeholder="___________"> leva ao aparecimento de <input class="blank-input" id="blank37c" data-answer="rugas" readonly placeholder="___________">.
+    O envelhecimento <span class="blank-input" id="blank37e" data-answer="intrínseco" data-value="">___</span> é o desgaste natural do organismo. O envelhecimento <span class="blank-input" id="blank37f" data-answer="extrínseco" data-value="">___</span> é causado principalmente pela exposição à radiação <span class="blank-input" id="blank37d" data-answer="UV" data-value="">___</span>. A diminuição de <span class="blank-input" id="blank37a" data-answer="colagénio" data-value="">___</span> e <span class="blank-input" id="blank37b" data-answer="elastina" data-value="">___</span> leva ao aparecimento de <span class="blank-input" id="blank37c" data-answer="rugas" data-value="">___</span>.
   </div>
   <button class="check-btn" data-checkblanks="q37" data-blanks='["blank37a","blank37b","blank37c","blank37d","blank37e","blank37f"]'>Verificar respostas</button>
   <div class="feedback" id="fb-q37"></div>
@@ -1565,7 +1568,7 @@
     <span class="word-chip" data-chip-word="fibrina">fibrina</span>
   </div>
   <div class="blank-text">
-    Após a lesão, as <input class="blank-input" id="blank71a" data-answer="plaquetas" readonly placeholder="___________"> ativam a coagulação formando uma rede de <input class="blank-input" id="blank71f" data-answer="fibrina" readonly placeholder="___________">. Às 24 horas chegam os <input class="blank-input" id="blank71b" data-answer="neutrófilos" readonly placeholder="___________"> para destruir bactérias. Depois chegam os <input class="blank-input" id="blank71c" data-answer="macrófagos" readonly placeholder="___________"> entre as 48 e 96 horas. Na fase proliferativa, os <input class="blank-input" id="blank71d" data-answer="fibroblastos" readonly placeholder="___________"> sintetizam <input class="blank-input" id="blank71e" data-answer="colagénio" readonly placeholder="___________">.
+    Após a lesão, as <span class="blank-input" id="blank71a" data-answer="plaquetas" data-value="">___</span> ativam a coagulação formando uma rede de <span class="blank-input" id="blank71f" data-answer="fibrina" data-value="">___</span>. Às 24 horas chegam os <span class="blank-input" id="blank71b" data-answer="neutrófilos" data-value="">___</span> para destruir bactérias. Depois chegam os <span class="blank-input" id="blank71c" data-answer="macrófagos" data-value="">___</span> entre as 48 e 96 horas. Na fase proliferativa, os <span class="blank-input" id="blank71d" data-answer="fibroblastos" data-value="">___</span> sintetizam <span class="blank-input" id="blank71e" data-answer="colagénio" data-value="">___</span>.
   </div>
   <button class="check-btn" data-checkblanks="q71" data-blanks='["blank71a","blank71b","blank71c","blank71d","blank71e","blank71f"]'>Verificar respostas</button>
   <div class="feedback" id="fb-q71"></div>
@@ -1980,22 +1983,27 @@
   }
 
   function clickBlank(input) {
-    if (input.disabled) return;
-    if (!selectedChip) return; // nenhuma palavra selecionada
-    // se o campo já tinha uma palavra, devolve-a ao banco
-    if (input.value) {
-      const word = input.value;
+    if (input.dataset.disabled === 'true') return;
+    if (!selectedChip) return;
+    // se já tinha uma palavra, devolve ao banco
+    const currentVal = input.dataset.value || '';
+    if (currentVal) {
       const bank = input.closest('.q-card').querySelector('.word-bank');
       if (bank) {
         bank.querySelectorAll('.word-chip').forEach(function(c) {
-          if (c.textContent === word) c.classList.remove('used');
+          if (c.textContent.trim() === currentVal) c.classList.remove('used');
         });
       }
     }
-    input.value = selectedChip.textContent;
+    const word = selectedChip.textContent.trim();
+    input.dataset.value = word;
+    input.textContent = word;
     selectedChip.classList.add('used');
     selectedChip.classList.remove('selected');
     selectedChip = null;
+    // highlight temporário
+    input.classList.add('blank-ready');
+    setTimeout(function() { input.classList.remove('blank-ready'); }, 400);
   }
 
   function fillBlank(chip, blankId) {
@@ -2017,15 +2025,21 @@
     blankIds.forEach(id => {
       const input = document.getElementById(id);
       if (!input) return;
-      const val = input.value.trim().toLowerCase();
+      // suporta tanto <input> como <span>
+      const val = (input.tagName === 'INPUT' ? input.value : (input.dataset.value || '')).trim().toLowerCase();
       const ans = input.dataset.answer.trim().toLowerCase();
-      input.disabled = true;
+      input.dataset.disabled = 'true';
+      if (input.tagName === 'INPUT') input.disabled = true;
       if (val === ans) {
         input.classList.add('correct-blank');
       } else {
         input.classList.add('wrong-blank');
-        input.placeholder = input.dataset.answer;
-        input.value = input.value || '';
+        if (input.tagName === 'INPUT') {
+          input.placeholder = input.dataset.answer;
+          input.value = input.value || '';
+        } else {
+          input.textContent = (input.dataset.value ? '✗ ' + input.dataset.value + ' → ' : '') + input.dataset.answer;
+        }
         allCorrect = false;
         wrongCount++;
       }
@@ -2038,7 +2052,7 @@
       fb.innerHTML = '<strong>✅ Todos os espaços corretos!</strong>';
     } else {
       fb.className = 'feedback show wrong-fb';
-      fb.innerHTML = '<strong>❌ ' + wrongCount + ' espaço(s) incorreto(s).</strong> Os campos a vermelho mostram a resposta correta no placeholder.';
+      fb.innerHTML = '<strong>❌ ' + wrongCount + ' espaço(s) incorreto(s).</strong> Os campos a vermelho mostram a resposta correta.';
     }
     updateProgress();
   }
@@ -2175,7 +2189,7 @@
 
     // blank-input — receber a palavra selecionada
     const blankInput = target.closest('.blank-input');
-    if (blankInput && !blankInput.disabled) {
+    if (blankInput && blankInput.dataset.disabled !== 'true') {
       e.preventDefault();
       clickBlank(blankInput);
       return;
@@ -2261,6 +2275,7 @@
     document.querySelectorAll('.blank-input').forEach(function(input) {
       input.addEventListener('touchend', function(e) {
         e.preventDefault();
+        if (input.dataset.disabled === 'true') return;
         clickBlank(input);
       }, { passive: false });
     });
