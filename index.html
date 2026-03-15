@@ -558,6 +558,8 @@
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
   <span class="progress-text" id="progressText">0 / 0</span>
   <span id="score-display">✓ 0</span>
+  <span id="nota-display" style="font-size:0.85rem; font-weight:600; color:#2c4a3e; white-space:nowrap;">0.0 val.</span>
+  <button onclick="showFinal()" style="background:var(--accent);color:white;border:none;border-radius:8px;padding:0.35rem 0.8rem;font-family:inherit;font-size:0.8rem;font-weight:600;cursor:pointer;white-space:nowrap;">Ver nota</button>
 </div>
 
 <main id="quiz-main">
@@ -1794,10 +1796,13 @@
     const fill = document.getElementById('progressFill');
     const text = document.getElementById('progressText');
     const score = document.getElementById('score-display');
+    const notaLive = document.getElementById('nota-display');
     const pct = Math.round((answered / TOTAL_SCORED) * 100);
     fill.style.width = pct + '%';
     text.textContent = answered + ' / ' + TOTAL_SCORED;
     score.textContent = '✓ ' + correct;
+    const nota = answered > 0 ? (correct / TOTAL_SCORED * 20).toFixed(1) : '0.0';
+    notaLive.textContent = nota + ' val.';
     if (answered >= TOTAL_SCORED) showFinal();
   }
 
