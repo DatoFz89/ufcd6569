@@ -494,7 +494,7 @@
     margin-top: 2rem;
   }
   #final-result h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 0.5rem; }
-  #final-result .big-score { font-size: 4rem; font-weight: 700; color: #ffd580; margin: 0.5rem 0; }
+  #final-result .big-score { font-size: 4rem; font-weight: 700; color: #ffd580; margin: 0.5rem 0; word-break: break-word; font-size: clamp(1.4rem, 8vw, 4rem); }
   #final-result p { opacity: 0.85; }
   .restart-btn {
     margin-top: 1.5rem;
@@ -2142,13 +2142,15 @@
       // Nota parcial — mostrar só o que foi respondido
       const pct = answered > 0 ? Math.round((correct / answered) * 100) : 0;
       const nota = answered > 0 ? Math.round((correct / answered) * 20 * 10) / 10 : 0;
-      scoreEl.textContent = correct + ' / ' + answered + ' respondidas (' + pct + '%)';
+      scoreEl.style.fontSize = '1.8rem';
+      scoreEl.textContent = correct + ' / ' + answered + ' (' + pct + '%)';
       notaEl.textContent = 'Nota parcial: ' + nota.toFixed(1) + ' valores';
       msgEl.textContent = '⚠️ Respondeste a ' + answered + ' de ' + TOTAL_SCORED + ' perguntas. Completa o teste para a nota final.';
     } else {
       // Teste completo
       const pct = Math.round((correct / TOTAL_SCORED) * 100);
       const nota = Math.round((correct / TOTAL_SCORED) * 20 * 10) / 10;
+      scoreEl.style.fontSize = '';
       scoreEl.textContent = correct + ' / ' + TOTAL_SCORED + ' (' + pct + '%)';
       notaEl.textContent = 'Nota: ' + nota.toFixed(1) + ' valores';
       if (pct >= 90) msgEl.textContent = '🌟 Excelente! Estás muito bem preparado(a) para o teste!';
