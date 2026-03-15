@@ -361,14 +361,18 @@
     font-size: 1rem;
     min-width: 120px;
     text-align: center;
-    padding: 0 0.3rem;
+    padding: 0.1rem 0.3rem;
     color: var(--text);
     outline: none;
     transition: border-color 0.2s, background 0.2s;
     cursor: pointer;
     vertical-align: middle;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+    border-radius: 0;
   }
-  .blank-input:empty::before { content: '___'; color: var(--text-muted); }
+  .blank-input:empty::before, .blank-input[data-value=""]:not(.correct-blank):not(.wrong-blank) { color: var(--text-muted); }
   .blank-input.blank-ready { border-bottom-color: var(--primary); background: #e8f0ed; }
   .blank-input:focus { border-bottom-color: var(--primary); }
   .blank-input.correct-blank { border-bottom-color: var(--correct); color: var(--correct); font-weight: 600; background: var(--correct-bg); }
@@ -394,6 +398,10 @@
     cursor: pointer;
     transition: all 0.2s;
     user-select: none;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+    display: inline-block;
   }
   .word-chip:hover { border-color: var(--primary); background: #e8f0ed; }
   .word-chip.used { opacity: 0.4; text-decoration: line-through; cursor: default; }
@@ -967,7 +975,7 @@
     <span class="word-chip" data-chip-word="excreção">excreção</span>
   </div>
   <div class="blank-text">
-    Quando o ambiente está frio, ocorre <span class="blank-input" id="blank25b" data-answer="vasoconstrição" data-value="">___</span> dos vasos cutâneos para conservar calor. Quando está quente, ocorre <span class="blank-input" id="blank25a" data-answer="vasodilatação" data-value="">___</span> para perder calor através da pele. As glândulas <span class="blank-input" id="blank25c" data-answer="sudoríparas" data-value="">___</span> também ajudam a arrefecer o corpo. Através do suor ocorre também a <span class="blank-input" id="blank25f" data-answer="excreção" data-value="">___</span> de resíduos metabólicos.
+    Quando o ambiente está frio, ocorre <button class="blank-input" id="blank25b" data-answer="vasoconstrição" data-value="" type="button">___</button> dos vasos cutâneos para conservar calor. Quando está quente, ocorre <button class="blank-input" id="blank25a" data-answer="vasodilatação" data-value="" type="button">___</button> para perder calor através da pele. As glândulas <button class="blank-input" id="blank25c" data-answer="sudoríparas" data-value="" type="button">___</button> também ajudam a arrefecer o corpo. Através do suor ocorre também a <button class="blank-input" id="blank25f" data-answer="excreção" data-value="" type="button">___</button> de resíduos metabólicos.
   </div>
   <button class="check-btn" data-checkblanks="q25" data-blanks='["blank25a","blank25b","blank25c","blank25f"]'>Verificar respostas</button>
   <div class="feedback" id="fb-q25"></div>
@@ -1128,7 +1136,7 @@
     <span class="word-chip" data-chip-word="extrínseco">extrínseco</span>
   </div>
   <div class="blank-text">
-    O envelhecimento <span class="blank-input" id="blank37e" data-answer="intrínseco" data-value="">___</span> é o desgaste natural do organismo. O envelhecimento <span class="blank-input" id="blank37f" data-answer="extrínseco" data-value="">___</span> é causado principalmente pela exposição à radiação <span class="blank-input" id="blank37d" data-answer="UV" data-value="">___</span>. A diminuição de <span class="blank-input" id="blank37a" data-answer="colagénio" data-value="">___</span> e <span class="blank-input" id="blank37b" data-answer="elastina" data-value="">___</span> leva ao aparecimento de <span class="blank-input" id="blank37c" data-answer="rugas" data-value="">___</span>.
+    O envelhecimento <button class="blank-input" id="blank37e" data-answer="intrínseco" data-value="" type="button">___</button> é o desgaste natural do organismo. O envelhecimento <button class="blank-input" id="blank37f" data-answer="extrínseco" data-value="" type="button">___</button> é causado principalmente pela exposição à radiação <button class="blank-input" id="blank37d" data-answer="UV" data-value="" type="button">___</button>. A diminuição de <button class="blank-input" id="blank37a" data-answer="colagénio" data-value="" type="button">___</button> e <button class="blank-input" id="blank37b" data-answer="elastina" data-value="" type="button">___</button> leva ao aparecimento de <button class="blank-input" id="blank37c" data-answer="rugas" data-value="" type="button">___</button>.
   </div>
   <button class="check-btn" data-checkblanks="q37" data-blanks='["blank37a","blank37b","blank37c","blank37d","blank37e","blank37f"]'>Verificar respostas</button>
   <div class="feedback" id="fb-q37"></div>
@@ -1568,7 +1576,7 @@
     <span class="word-chip" data-chip-word="fibrina">fibrina</span>
   </div>
   <div class="blank-text">
-    Após a lesão, as <span class="blank-input" id="blank71a" data-answer="plaquetas" data-value="">___</span> ativam a coagulação formando uma rede de <span class="blank-input" id="blank71f" data-answer="fibrina" data-value="">___</span>. Às 24 horas chegam os <span class="blank-input" id="blank71b" data-answer="neutrófilos" data-value="">___</span> para destruir bactérias. Depois chegam os <span class="blank-input" id="blank71c" data-answer="macrófagos" data-value="">___</span> entre as 48 e 96 horas. Na fase proliferativa, os <span class="blank-input" id="blank71d" data-answer="fibroblastos" data-value="">___</span> sintetizam <span class="blank-input" id="blank71e" data-answer="colagénio" data-value="">___</span>.
+    Após a lesão, as <button class="blank-input" id="blank71a" data-answer="plaquetas" data-value="" type="button">___</button> ativam a coagulação formando uma rede de <button class="blank-input" id="blank71f" data-answer="fibrina" data-value="" type="button">___</button>. Às 24 horas chegam os <button class="blank-input" id="blank71b" data-answer="neutrófilos" data-value="" type="button">___</button> para destruir bactérias. Depois chegam os <button class="blank-input" id="blank71c" data-answer="macrófagos" data-value="" type="button">___</button> entre as 48 e 96 horas. Na fase proliferativa, os <button class="blank-input" id="blank71d" data-answer="fibroblastos" data-value="" type="button">___</button> sintetizam <button class="blank-input" id="blank71e" data-answer="colagénio" data-value="" type="button">___</button>.
   </div>
   <button class="check-btn" data-checkblanks="q71" data-blanks='["blank71a","blank71b","blank71c","blank71d","blank71e","blank71f"]'>Verificar respostas</button>
   <div class="feedback" id="fb-q71"></div>
@@ -2266,15 +2274,28 @@
     });
 
     document.querySelectorAll('.word-chip[data-chip-word]').forEach(function(chip) {
+      chip.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        selectChip(chip);
+      });
       chip.addEventListener('touchend', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         selectChip(chip);
       }, { passive: false });
     });
 
     document.querySelectorAll('.blank-input').forEach(function(input) {
+      input.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (input.dataset.disabled === 'true') return;
+        clickBlank(input);
+      });
       input.addEventListener('touchend', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         if (input.dataset.disabled === 'true') return;
         clickBlank(input);
       }, { passive: false });
