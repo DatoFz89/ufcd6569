@@ -1992,8 +1992,24 @@
 
   function clickBlank(input) {
     if (input.dataset.disabled === 'true') return;
-    if (!selectedChip) return;
-    // se já tinha uma palavra, devolve ao banco
+
+    // Se não há chip selecionado e o campo tem palavra → devolver ao banco
+    if (!selectedChip) {
+      const currentVal = input.dataset.value || '';
+      if (currentVal) {
+        const bank = input.closest('.q-card').querySelector('.word-bank');
+        if (bank) {
+          bank.querySelectorAll('.word-chip').forEach(function(c) {
+            if (c.textContent.trim() === currentVal) c.classList.remove('used');
+          });
+        }
+        input.dataset.value = '';
+        input.textContent = '___';
+      }
+      return;
+    }
+
+    // Se há chip selecionado → colocar no campo (e devolver a anterior se existia)
     const currentVal = input.dataset.value || '';
     if (currentVal) {
       const bank = input.closest('.q-card').querySelector('.word-bank');
@@ -2009,7 +2025,6 @@
     selectedChip.classList.add('used');
     selectedChip.classList.remove('selected');
     selectedChip = null;
-    // highlight temporário
     input.classList.add('blank-ready');
     setTimeout(function() { input.classList.remove('blank-ready'); }, 400);
   }
