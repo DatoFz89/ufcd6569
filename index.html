@@ -314,6 +314,10 @@
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+    display: inline-block;
   }
   .reveal-btn:hover { background: var(--primary-light); }
 
@@ -2623,8 +2627,15 @@
     });
 
     document.querySelectorAll('.reveal-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const toggleId = btn.dataset.toggle;
+        if (toggleId) toggleAnswer(toggleId);
+      });
       btn.addEventListener('touchend', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         const toggleId = btn.dataset.toggle;
         if (toggleId) toggleAnswer(toggleId);
       }, { passive: false });
