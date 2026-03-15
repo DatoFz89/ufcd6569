@@ -957,7 +957,7 @@
   <div class="blank-text">
     Quando o ambiente está frio, ocorre <input class="blank-input" id="blank25b" data-answer="vasoconstrição" readonly placeholder="___________"> dos vasos cutâneos para conservar calor. Quando está quente, ocorre <input class="blank-input" id="blank25a" data-answer="vasodilatação" readonly placeholder="___________"> para perder calor através da pele. As glândulas <input class="blank-input" id="blank25c" data-answer="sudoríparas" readonly placeholder="___________"> também ajudam a arrefecer o corpo. Através do suor ocorre também a <input class="blank-input" id="blank25f" data-answer="excreção" readonly placeholder="___________"> de resíduos metabólicos.
   </div>
-  <button class="check-btn" data-checkblanks="q25" data-blanks='['blank25a','blank25b','blank25c','blank25f']'>Verificar respostas</button>
+  <button class="check-btn" data-checkblanks="q25" data-blanks='["blank25a","blank25b","blank25c","blank25f"]'>Verificar respostas</button>
   <div class="feedback" id="fb-q25"></div>
 </div>
 
@@ -1118,7 +1118,7 @@
   <div class="blank-text">
     O envelhecimento <input class="blank-input" id="blank37e" data-answer="intrínseco" readonly placeholder="___________"> é o desgaste natural do organismo. O envelhecimento <input class="blank-input" id="blank37f" data-answer="extrínseco" readonly placeholder="___________"> é causado principalmente pela exposição à radiação <input class="blank-input" id="blank37d" data-answer="UV" readonly placeholder="_____">. A diminuição de <input class="blank-input" id="blank37a" data-answer="colagénio" readonly placeholder="___________"> e <input class="blank-input" id="blank37b" data-answer="elastina" readonly placeholder="___________"> leva ao aparecimento de <input class="blank-input" id="blank37c" data-answer="rugas" readonly placeholder="___________">.
   </div>
-  <button class="check-btn" data-checkblanks="q37" data-blanks='['blank37a','blank37b','blank37c','blank37d','blank37e','blank37f']'>Verificar respostas</button>
+  <button class="check-btn" data-checkblanks="q37" data-blanks='["blank37a","blank37b","blank37c","blank37d","blank37e","blank37f"]'>Verificar respostas</button>
   <div class="feedback" id="fb-q37"></div>
 </div>
 
@@ -1558,7 +1558,7 @@
   <div class="blank-text">
     Após a lesão, as <input class="blank-input" id="blank71a" data-answer="plaquetas" readonly placeholder="___________"> ativam a coagulação formando uma rede de <input class="blank-input" id="blank71f" data-answer="fibrina" readonly placeholder="___________">. Às 24 horas chegam os <input class="blank-input" id="blank71b" data-answer="neutrófilos" readonly placeholder="___________"> para destruir bactérias. Depois chegam os <input class="blank-input" id="blank71c" data-answer="macrófagos" readonly placeholder="___________"> entre as 48 e 96 horas. Na fase proliferativa, os <input class="blank-input" id="blank71d" data-answer="fibroblastos" readonly placeholder="___________"> sintetizam <input class="blank-input" id="blank71e" data-answer="colagénio" readonly placeholder="___________">.
   </div>
-  <button class="check-btn" data-checkblanks="q71" data-blanks='['blank71a','blank71b','blank71c','blank71d','blank71e','blank71f']'>Verificar respostas</button>
+  <button class="check-btn" data-checkblanks="q71" data-blanks='["blank71a","blank71b","blank71c","blank71d","blank71e","blank71f"]'>Verificar respostas</button>
   <div class="feedback" id="fb-q71"></div>
 </div>
 
@@ -1767,6 +1767,7 @@
 <div id="final-result">
   <h2>Ficha Concluída!</h2>
   <div class="big-score" id="final-score">—</div>
+  <div style="font-size:1.6rem; font-weight:700; color:#ffd580; margin-bottom:0.5rem;" id="final-nota"></div>
   <p id="final-msg">Continua a estudar para garantir o melhor resultado no teste!</p>
   <button class="restart-btn" onclick="location.reload()">Recomeçar</button>
 </div>
@@ -2054,9 +2055,12 @@
     const result = document.getElementById('final-result');
     const scoreEl = document.getElementById('final-score');
     const msgEl = document.getElementById('final-msg');
+    const notaEl = document.getElementById('final-nota');
     result.style.display = 'block';
     const pct = Math.round((correct / TOTAL_SCORED) * 100);
+    const nota = Math.round((correct / TOTAL_SCORED) * 20 * 10) / 10;
     scoreEl.textContent = correct + ' / ' + TOTAL_SCORED + ' (' + pct + '%)';
+    notaEl.textContent = 'Nota: ' + nota.toFixed(1) + ' valores';
     if (pct >= 90) msgEl.textContent = '🌟 Excelente! Estás muito bem preparado(a) para o teste!';
     else if (pct >= 75) msgEl.textContent = '👍 Bom resultado! Revê os temas onde erraste.';
     else if (pct >= 60) msgEl.textContent = '📚 Resultado razoável. Dedica mais tempo aos temas com mais erros.';
@@ -2129,6 +2133,77 @@
 
   document.addEventListener('click', handleInteraction);
   document.addEventListener('touchend', handleInteraction, { passive: false });
+
+  // ─── LISTENERS DIRETOS EM CADA BOTÃO (fallback iOS) ─────────────────────
+  function bindAllButtons() {
+    document.querySelectorAll('.option-btn').forEach(function(btn) {
+      btn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        if (btn.disabled) return;
+        const qId = btn.dataset.qid;
+        const isCorrect = btn.dataset.correct === 'true';
+        if (qId) answerMC(btn, qId, isCorrect);
+      }, { passive: false });
+    });
+
+    document.querySelectorAll('.tf-btn').forEach(function(btn) {
+      btn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        if (btn.disabled) return;
+        const qId = btn.dataset.qid;
+        const isCorrect = btn.dataset.answer === 'true';
+        if (qId) answerTF(btn, qId, isCorrect);
+      }, { passive: false });
+    });
+
+    document.querySelectorAll('.reveal-btn').forEach(function(btn) {
+      btn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        const toggleId = btn.dataset.toggle;
+        if (toggleId) toggleAnswer(toggleId);
+      }, { passive: false });
+    });
+
+    document.querySelectorAll('.check-btn[data-checkblanks]').forEach(function(btn) {
+      btn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        const qId = btn.dataset.checkblanks;
+        const blanks = JSON.parse(btn.dataset.blanks);
+        if (qId) checkBlanks(qId, blanks);
+      }, { passive: false });
+    });
+
+    document.querySelectorAll('.check-btn[data-checkdiagram]').forEach(function(btn) {
+      btn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        const qId = btn.dataset.checkdiagram;
+        const prefix = btn.dataset.prefix;
+        const count = parseInt(btn.dataset.count);
+        if (qId) checkDiagram(qId, prefix, count);
+      }, { passive: false });
+    });
+
+    document.querySelectorAll('.word-chip[data-fillblank]').forEach(function(chip) {
+      chip.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        if (chip.classList.contains('used')) return;
+        const blankId = chip.dataset.fillblank;
+        if (blankId) fillBlank(chip, blankId);
+      }, { passive: false });
+    });
+
+    document.querySelectorAll('.word-chip[data-usechip]').forEach(function(chip) {
+      chip.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        if (chip.classList.contains('used')) return;
+        const prefix = chip.dataset.usechip;
+        const value = chip.dataset.chipvalue;
+        if (prefix) useChip(chip, prefix, value);
+      }, { passive: false });
+    });
+  }
+
+  bindAllButtons();
 
   // ─── BOTÃO VOLTAR AO TOPO ───────────────────────────────────────────────
   window.addEventListener('scroll', function () {
