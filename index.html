@@ -570,7 +570,7 @@
   <span class="progress-text" id="progressText">0 / 0</span>
   <span id="score-display">✓ 0</span>
   <span id="nota-display" style="font-size:0.85rem; font-weight:600; color:#2c4a3e; white-space:nowrap;">0.0 val.</span>
-  <button onclick="showFinal()" style="background:var(--accent);color:white;border:none;border-radius:8px;padding:0.35rem 0.8rem;font-family:inherit;font-size:0.8rem;font-weight:600;cursor:pointer;white-space:nowrap;">Ver nota</button>
+  <button id="btn-ver-nota" style="background:var(--accent);color:white;border:none;border-radius:8px;padding:0.35rem 0.8rem;font-family:inherit;font-size:0.8rem;font-weight:600;cursor:pointer;white-space:nowrap;">Ver nota</button>
 </div>
 
 <main id="quiz-main">
@@ -2137,11 +2137,14 @@
     const msgEl = document.getElementById('final-msg');
     const notaEl = document.getElementById('final-nota');
     result.style.display = 'block';
+    const base = answered > 0 ? answered : 1;
     const pct = Math.round((correct / TOTAL_SCORED) * 100);
     const nota = Math.round((correct / TOTAL_SCORED) * 20 * 10) / 10;
     scoreEl.textContent = correct + ' / ' + TOTAL_SCORED + ' (' + pct + '%)';
     notaEl.textContent = 'Nota: ' + nota.toFixed(1) + ' valores';
-    if (pct >= 90) msgEl.textContent = '🌟 Excelente! Estás muito bem preparado(a) para o teste!';
+    if (answered < TOTAL_SCORED) {
+      msgEl.textContent = '⚠️ Ainda respondeste a ' + answered + ' de ' + TOTAL_SCORED + ' perguntas. Nota parcial.';
+    } else if (pct >= 90) msgEl.textContent = '🌟 Excelente! Estás muito bem preparado(a) para o teste!';
     else if (pct >= 75) msgEl.textContent = '👍 Bom resultado! Revê os temas onde erraste.';
     else if (pct >= 60) msgEl.textContent = '📚 Resultado razoável. Dedica mais tempo aos temas com mais erros.';
     else msgEl.textContent = '💪 Continua a estudar! Revê o manual com atenção e tenta novamente.';
@@ -2150,6 +2153,13 @@
 
   // Init progress
   updateProgress();
+
+  // Botão Ver nota
+  document.getElementById('btn-ver-nota').addEventListener('click', showFinal);
+  document.getElementById('btn-ver-nota').addEventListener('touchend', function(e) {
+    e.preventDefault();
+    showFinal();
+  }, { passive: false });
 
   // Expor funções globalmente para os onclick inline do HTML
   window.showFinal = showFinal;
