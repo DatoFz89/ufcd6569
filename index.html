@@ -2137,17 +2137,25 @@
     const msgEl = document.getElementById('final-msg');
     const notaEl = document.getElementById('final-nota');
     result.style.display = 'block';
-    const base = answered > 0 ? answered : 1;
-    const pct = Math.round((correct / TOTAL_SCORED) * 100);
-    const nota = Math.round((correct / TOTAL_SCORED) * 20 * 10) / 10;
-    scoreEl.textContent = correct + ' / ' + TOTAL_SCORED + ' (' + pct + '%)';
-    notaEl.textContent = 'Nota: ' + nota.toFixed(1) + ' valores';
+
     if (answered < TOTAL_SCORED) {
-      msgEl.textContent = '⚠️ Ainda respondeste a ' + answered + ' de ' + TOTAL_SCORED + ' perguntas. Nota parcial.';
-    } else if (pct >= 90) msgEl.textContent = '🌟 Excelente! Estás muito bem preparado(a) para o teste!';
-    else if (pct >= 75) msgEl.textContent = '👍 Bom resultado! Revê os temas onde erraste.';
-    else if (pct >= 60) msgEl.textContent = '📚 Resultado razoável. Dedica mais tempo aos temas com mais erros.';
-    else msgEl.textContent = '💪 Continua a estudar! Revê o manual com atenção e tenta novamente.';
+      // Nota parcial — mostrar só o que foi respondido
+      const pct = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+      const nota = answered > 0 ? Math.round((correct / answered) * 20 * 10) / 10 : 0;
+      scoreEl.textContent = correct + ' / ' + answered + ' respondidas (' + pct + '%)';
+      notaEl.textContent = 'Nota parcial: ' + nota.toFixed(1) + ' valores';
+      msgEl.textContent = '⚠️ Respondeste a ' + answered + ' de ' + TOTAL_SCORED + ' perguntas. Completa o teste para a nota final.';
+    } else {
+      // Teste completo
+      const pct = Math.round((correct / TOTAL_SCORED) * 100);
+      const nota = Math.round((correct / TOTAL_SCORED) * 20 * 10) / 10;
+      scoreEl.textContent = correct + ' / ' + TOTAL_SCORED + ' (' + pct + '%)';
+      notaEl.textContent = 'Nota: ' + nota.toFixed(1) + ' valores';
+      if (pct >= 90) msgEl.textContent = '🌟 Excelente! Estás muito bem preparado(a) para o teste!';
+      else if (pct >= 75) msgEl.textContent = '👍 Bom resultado! Revê os temas onde erraste.';
+      else if (pct >= 60) msgEl.textContent = '📚 Resultado razoável. Dedica mais tempo aos temas com mais erros.';
+      else msgEl.textContent = '💪 Continua a estudar! Revê o manual com atenção e tenta novamente.';
+    }
     result.scrollIntoView({ block: 'start' });
   }
 
