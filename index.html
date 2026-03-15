@@ -365,6 +365,7 @@
     color: var(--text);
     outline: none;
     transition: border-color 0.2s;
+    cursor: pointer;
   }
   .blank-input:focus { border-bottom-color: var(--primary); }
   .blank-input.correct-blank { border-bottom-color: var(--correct); color: var(--correct); font-weight: 600; }
@@ -393,6 +394,12 @@
   }
   .word-chip:hover { border-color: var(--primary); background: #e8f0ed; }
   .word-chip.used { opacity: 0.4; text-decoration: line-through; cursor: default; }
+  .word-chip.selected {
+    border-color: var(--accent);
+    background: #fde8d8;
+    color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-light);
+  }
 
   /* DIAGRAM LABEL QUESTION */
   .diagram-container {
@@ -945,14 +952,14 @@
 <!-- Q25 FILL IN THE BLANK -->
 <div class="q-card" id="q25">
   <div class="q-number">Pergunta 25 · Preenchimento de Espaços</div>
-  <div class="q-text">Completa o texto com os termos correctos. Clica nos termos para os usar.</div>
+  <div class="q-text">Completa o texto com os termos corretos. 1º clica numa palavra para a selecionar, 2º clica no espaço em branco onde a queres colocar.</div>
   <div class="word-bank" id="wb-q25">
-    <span class="word-chip" data-fillblank="blank25a">vasodilatação</span>
-    <span class="word-chip" data-fillblank="blank25b">vasoconstrição</span>
-    <span class="word-chip" data-fillblank="blank25c">sudoríparas</span>
-    <span class="word-chip" data-fillblank="blank25d">melanina</span>
-    <span class="word-chip" data-fillblank="blank25e">vitamina D</span>
-    <span class="word-chip" data-fillblank="blank25f">excreção</span>
+    <span class="word-chip" data-chip-word="vasodilatação">vasodilatação</span>
+    <span class="word-chip" data-chip-word="vasoconstrição">vasoconstrição</span>
+    <span class="word-chip" data-chip-word="sudoríparas">sudoríparas</span>
+    <span class="word-chip" data-chip-word="melanina">melanina</span>
+    <span class="word-chip" data-chip-word="vitamina D">vitamina D</span>
+    <span class="word-chip" data-chip-word="excreção">excreção</span>
   </div>
   <div class="blank-text">
     Quando o ambiente está frio, ocorre <input class="blank-input" id="blank25b" data-answer="vasoconstrição" readonly placeholder="___________"> dos vasos cutâneos para conservar calor. Quando está quente, ocorre <input class="blank-input" id="blank25a" data-answer="vasodilatação" readonly placeholder="___________"> para perder calor através da pele. As glândulas <input class="blank-input" id="blank25c" data-answer="sudoríparas" readonly placeholder="___________"> também ajudam a arrefecer o corpo. Através do suor ocorre também a <input class="blank-input" id="blank25f" data-answer="excreção" readonly placeholder="___________"> de resíduos metabólicos.
@@ -1106,14 +1113,14 @@
 <!-- Q37 FILL IN THE BLANK -->
 <div class="q-card" id="q37">
   <div class="q-number">Pergunta 37 · Preenchimento de Espaços</div>
-  <div class="q-text">Completa o texto sobre o envelhecimento da pele com os termos corretos.</div>
+  <div class="q-text">Completa o texto sobre o envelhecimento da pele com os termos corretos. 1º clica numa palavra para a selecionar, 2º clica no espaço em branco onde a queres colocar.</div>
   <div class="word-bank" id="wb-q37">
-    <span class="word-chip" data-fillblank="blank37a">colagénio</span>
-    <span class="word-chip" data-fillblank="blank37b">elastina</span>
-    <span class="word-chip" data-fillblank="blank37c">rugas</span>
-    <span class="word-chip" data-fillblank="blank37d">UV</span>
-    <span class="word-chip" data-fillblank="blank37e">intrínseco</span>
-    <span class="word-chip" data-fillblank="blank37f">extrínseco</span>
+    <span class="word-chip" data-chip-word="colagénio">colagénio</span>
+    <span class="word-chip" data-chip-word="elastina">elastina</span>
+    <span class="word-chip" data-chip-word="rugas">rugas</span>
+    <span class="word-chip" data-chip-word="UV">UV</span>
+    <span class="word-chip" data-chip-word="intrínseco">intrínseco</span>
+    <span class="word-chip" data-chip-word="extrínseco">extrínseco</span>
   </div>
   <div class="blank-text">
     O envelhecimento <input class="blank-input" id="blank37e" data-answer="intrínseco" readonly placeholder="___________"> é o desgaste natural do organismo. O envelhecimento <input class="blank-input" id="blank37f" data-answer="extrínseco" readonly placeholder="___________"> é causado principalmente pela exposição à radiação <input class="blank-input" id="blank37d" data-answer="UV" readonly placeholder="_____">. A diminuição de <input class="blank-input" id="blank37a" data-answer="colagénio" readonly placeholder="___________"> e <input class="blank-input" id="blank37b" data-answer="elastina" readonly placeholder="___________"> leva ao aparecimento de <input class="blank-input" id="blank37c" data-answer="rugas" readonly placeholder="___________">.
@@ -1546,14 +1553,14 @@
 <!-- Q71 FILL IN THE BLANK -->
 <div class="q-card" id="q71">
   <div class="q-number">Pergunta 71 · Preenchimento de Espaços</div>
-  <div class="q-text">Completa o texto sobre as fases de cicatrização.</div>
+  <div class="q-text">Completa o texto sobre as fases de cicatrização. 1º clica numa palavra para a selecionar, 2º clica no espaço em branco onde a queres colocar.</div>
   <div class="word-bank" id="wb-q71">
-    <span class="word-chip" data-fillblank="blank71a">plaquetas</span>
-    <span class="word-chip" data-fillblank="blank71b">neutrófilos</span>
-    <span class="word-chip" data-fillblank="blank71c">macrófagos</span>
-    <span class="word-chip" data-fillblank="blank71d">fibroblastos</span>
-    <span class="word-chip" data-fillblank="blank71e">colagénio</span>
-    <span class="word-chip" data-fillblank="blank71f">fibrina</span>
+    <span class="word-chip" data-chip-word="plaquetas">plaquetas</span>
+    <span class="word-chip" data-chip-word="neutrófilos">neutrófilos</span>
+    <span class="word-chip" data-chip-word="macrófagos">macrófagos</span>
+    <span class="word-chip" data-chip-word="fibroblastos">fibroblastos</span>
+    <span class="word-chip" data-chip-word="colagénio">colagénio</span>
+    <span class="word-chip" data-chip-word="fibrina">fibrina</span>
   </div>
   <div class="blank-text">
     Após a lesão, as <input class="blank-input" id="blank71a" data-answer="plaquetas" readonly placeholder="___________"> ativam a coagulação formando uma rede de <input class="blank-input" id="blank71f" data-answer="fibrina" readonly placeholder="___________">. Às 24 horas chegam os <input class="blank-input" id="blank71b" data-answer="neutrófilos" readonly placeholder="___________"> para destruir bactérias. Depois chegam os <input class="blank-input" id="blank71c" data-answer="macrófagos" readonly placeholder="___________"> entre as 48 e 96 horas. Na fase proliferativa, os <input class="blank-input" id="blank71d" data-answer="fibroblastos" readonly placeholder="___________"> sintetizam <input class="blank-input" id="blank71e" data-answer="colagénio" readonly placeholder="___________">.
@@ -1955,12 +1962,43 @@
   // ─── FILL IN THE BLANK ─────────────────────────────────────────────────
   let activeBlank = null;
 
+  // chip selecionado atualmente
+  let selectedChip = null;
+
+  function selectChip(chip) {
+    if (chip.classList.contains('used')) return;
+    // desselecionar o anterior
+    if (selectedChip) selectedChip.classList.remove('selected');
+    if (selectedChip === chip) { selectedChip = null; return; }
+    selectedChip = chip;
+    chip.classList.add('selected');
+  }
+
+  function clickBlank(input) {
+    if (input.disabled) return;
+    if (!selectedChip) return; // nenhuma palavra selecionada
+    // se o campo já tinha uma palavra, devolve-a ao banco
+    if (input.value) {
+      const word = input.value;
+      const bank = input.closest('.q-card').querySelector('.word-bank');
+      if (bank) {
+        bank.querySelectorAll('.word-chip').forEach(function(c) {
+          if (c.textContent === word) c.classList.remove('used');
+        });
+      }
+    }
+    input.value = selectedChip.textContent;
+    selectedChip.classList.add('used');
+    selectedChip.classList.remove('selected');
+    selectedChip = null;
+  }
+
   function fillBlank(chip, blankId) {
+    // mantido por compatibilidade mas já não é usado nas novas perguntas
     const input = document.getElementById(blankId);
     if (!input || input.disabled) return;
     input.value = chip.textContent;
     chip.classList.add('used');
-    activeBlank = null;
   }
 
   function checkBlanks(qId, blankIds) {
@@ -2115,11 +2153,27 @@
       if (qId) { e.preventDefault(); checkDiagram(qId, prefix, count); return; }
     }
 
-    // word-chip fillBlank
+    // word-chip fillBlank (antigo — destino fixo)
     const fillChip = target.closest('.word-chip[data-fillblank]');
     if (fillChip && !fillChip.classList.contains('used')) {
       const blankId = fillChip.dataset.fillblank;
       if (blankId) { e.preventDefault(); fillBlank(fillChip, blankId); return; }
+    }
+
+    // word-chip novo — selecionar para depois colocar num campo
+    const chipWord = target.closest('.word-chip[data-chip-word]');
+    if (chipWord) {
+      e.preventDefault();
+      selectChip(chipWord);
+      return;
+    }
+
+    // blank-input — receber a palavra selecionada
+    const blankInput = target.closest('.blank-input');
+    if (blankInput && !blankInput.disabled) {
+      e.preventDefault();
+      clickBlank(blankInput);
+      return;
     }
 
     // word-chip useChip (Legendas)
@@ -2189,6 +2243,20 @@
         if (chip.classList.contains('used')) return;
         const blankId = chip.dataset.fillblank;
         if (blankId) fillBlank(chip, blankId);
+      }, { passive: false });
+    });
+
+    document.querySelectorAll('.word-chip[data-chip-word]').forEach(function(chip) {
+      chip.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        selectChip(chip);
+      }, { passive: false });
+    });
+
+    document.querySelectorAll('.blank-input').forEach(function(input) {
+      input.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        clickBlank(input);
       }, { passive: false });
     });
 
