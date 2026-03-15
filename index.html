@@ -562,6 +562,7 @@
     <a class="badge" href="#q54">Desenvolvimento</a>
     <a class="badge" href="#q25">Preenchimento</a>
     <a class="badge" href="#q18">Legendas</a>
+    <a class="badge" href="#sec-professor" style="background:rgba(196,112,63,0.35); border-color:rgba(196,112,63,0.6);">📋 Fichas do Professor</a>
   </div>
 </header>
 
@@ -1783,6 +1784,437 @@
   <div class="feedback" id="fb-q85"></div>
 </div>
 
+<!-- ===================== FICHAS DO PROFESSOR ===================== -->
+<div class="section-header" id="sec-professor" style="scroll-margin-top:70px;">
+  <div class="section-icon">📋</div>
+  <h2>Fichas do Professor</h2>
+  <span class="count">IEFP · Porto</span>
+</div>
+
+<!-- FICHA 1 -->
+<div class="section-header" style="border-bottom:1px solid var(--border); margin-top:1rem;">
+  <div class="section-icon" style="background:var(--accent);">1</div>
+  <h2 style="font-size:1.1rem;">Ficha de Trabalho nº 1 — Estrutura da Pele</h2>
+</div>
+
+<!-- FP1: Legenda da figura -->
+<div class="q-card" id="fp1">
+  <div class="q-number">Questão 1.1 · Legenda da Figura</div>
+  <div class="q-text">Observe a figura que representa a pele e as estruturas que a constituem. Faça a legenda da figura.</div>
+  <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; margin-bottom:1rem;">
+    <!-- SVG da pele -->
+    <div style="flex:0 0 auto; width:260px;">
+      <svg viewBox="0 0 260 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;border:1px solid var(--border);border-radius:8px;background:#fff8f0;">
+        <!-- Fundo camadas -->
+        <rect x="0" y="0" width="260" height="300" fill="#fff8f0"/>
+        <!-- Epiderme -->
+        <rect x="0" y="0" width="260" height="55" fill="#f9d9b8" opacity="0.9"/>
+        <text x="4" y="13" font-size="9" fill="#555">Epiderme</text>
+        <!-- Derme -->
+        <rect x="0" y="55" width="260" height="110" fill="#f4a97a" opacity="0.7"/>
+        <text x="4" y="68" font-size="9" fill="#555">Derme</text>
+        <!-- Hipoderme -->
+        <rect x="0" y="165" width="260" height="135" fill="#f7c97a" opacity="0.6"/>
+        <text x="4" y="178" font-size="9" fill="#555">Hipoderme</text>
+
+        <!-- Pelos (3 pelos) -->
+        <line x1="60" y1="0" x2="55" y2="55" stroke="#8B4513" stroke-width="2.5"/>
+        <line x1="110" y1="0" x2="105" y2="55" stroke="#8B4513" stroke-width="2.5"/>
+        <line x1="160" y1="0" x2="155" y2="55" stroke="#8B4513" stroke-width="2.5"/>
+
+        <!-- Folículo piloso -->
+        <ellipse cx="105" cy="80" rx="10" ry="28" fill="#c4703f" opacity="0.5" transform="rotate(-5,105,80)"/>
+
+        <!-- Glândula sebácea -->
+        <ellipse cx="125" cy="75" rx="13" ry="9" fill="#e8a87c" stroke="#c4703f" stroke-width="1"/>
+        <text x="140" y="73" font-size="7.5" fill="#8B4513">Gl. Sebácea</text>
+
+        <!-- Glândula sudorípara (espiral) -->
+        <path d="M55,200 Q48,190 55,180 Q62,170 55,160 Q50,152 55,148" fill="none" stroke="#d45" stroke-width="2"/>
+        <ellipse cx="55" cy="205" rx="8" ry="6" fill="#fbb" stroke="#d45" stroke-width="1"/>
+
+        <!-- Capilares sanguíneos -->
+        <path d="M20,120 Q60,110 100,125 Q140,140 180,120 Q220,100 250,115" fill="none" stroke="#c0392b" stroke-width="2"/>
+        <path d="M20,135 Q60,145 100,135 Q140,125 180,140 Q220,150 250,135" fill="none" stroke="#c0392b" stroke-width="1.5"/>
+
+        <!-- Terminações nervosas -->
+        <path d="M180,160 Q190,170 185,185 Q180,195 188,205" fill="none" stroke="#2980b9" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <circle cx="188" cy="208" r="4" fill="#2980b9" opacity="0.7"/>
+
+        <!-- Unhas (representação simplificada no canto) -->
+        <rect x="215" y="8" width="35" height="18" rx="4" fill="#d4c5a9" stroke="#a89880" stroke-width="1"/>
+        <text x="217" y="20" font-size="7" fill="#666">Unha</text>
+
+        <!-- Setas com números -->
+        <!-- 1 → Pelo -->
+        <line x1="72" y1="8" x2="85" y2="8" stroke="#333" stroke-width="1"/>
+        <text x="5" y="10" font-size="10" fill="#c4703f" font-weight="bold">1</text>
+        <!-- 2 → Glândula sebácea -->
+        <line x1="125" y1="66" x2="138" y2="66" stroke="#333" stroke-width="1"/>
+        <text x="5" y="72" font-size="10" fill="#c4703f" font-weight="bold">2</text>
+        <!-- 3 → Glândula sudorípara -->
+        <line x1="63" y1="200" x2="75" y2="195" stroke="#333" stroke-width="1"/>
+        <text x="5" y="202" font-size="10" fill="#c4703f" font-weight="bold">3</text>
+        <!-- 4 → Hipoderme/tecido subcutâneo -->
+        <text x="5" y="260" font-size="10" fill="#c4703f" font-weight="bold">4</text>
+        <!-- A → Epiderme -->
+        <text x="5" y="40" font-size="10" fill="#2c4a3e" font-weight="bold">A</text>
+        <!-- B → Derme -->
+        <text x="5" y="120" font-size="10" fill="#2c4a3e" font-weight="bold">B</text>
+        <!-- C → Capilares -->
+        <line x1="100" y1="128" x2="112" y2="128" stroke="#333" stroke-width="1"/>
+        <text x="5" y="148" font-size="10" fill="#2c4a3e" font-weight="bold">C</text>
+      </svg>
+    </div>
+    <!-- Campos de legenda -->
+    <div style="flex:1; min-width:200px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;">
+        <div style="display:flex;align-items:center;gap:0.4rem;"><span style="font-weight:700;color:var(--accent);min-width:18px;">1</span><button class="blank-input" id="fpblank1a" data-answer="pelo" data-value="" type="button" style="width:100%;">___</button></div>
+        <div style="display:flex;align-items:center;gap:0.4rem;"><span style="font-weight:700;color:var(--primary);min-width:18px;">A</span><button class="blank-input" id="fpblank1b" data-answer="epiderme" data-value="" type="button" style="width:100%;">___</button></div>
+        <div style="display:flex;align-items:center;gap:0.4rem;"><span style="font-weight:700;color:var(--accent);min-width:18px;">2</span><button class="blank-input" id="fpblank1c" data-answer="glândula sebácea" data-value="" type="button" style="width:100%;">___</button></div>
+        <div style="display:flex;align-items:center;gap:0.4rem;"><span style="font-weight:700;color:var(--primary);min-width:18px;">B</span><button class="blank-input" id="fpblank1d" data-answer="derme" data-value="" type="button" style="width:100%;">___</button></div>
+        <div style="display:flex;align-items:center;gap:0.4rem;"><span style="font-weight:700;color:var(--accent);min-width:18px;">3</span><button class="blank-input" id="fpblank1e" data-answer="glândula sudorípara" data-value="" type="button" style="width:100%;">___</button></div>
+        <div style="display:flex;align-items:center;gap:0.4rem;"><span style="font-weight:700;color:var(--primary);min-width:18px;">C</span><button class="blank-input" id="fpblank1f" data-answer="capilares sanguíneos" data-value="" type="button" style="width:100%;">___</button></div>
+        <div style="display:flex;align-items:center;gap:0.4rem;"><span style="font-weight:700;color:var(--accent);min-width:18px;">4</span><button class="blank-input" id="fpblank1g" data-answer="hipoderme" data-value="" type="button" style="width:100%;">___</button></div>
+      </div>
+      <div class="word-bank" style="margin-top:0.8rem;">
+        <span class="word-chip" data-chip-word="pelo">pelo</span>
+        <span class="word-chip" data-chip-word="epiderme">epiderme</span>
+        <span class="word-chip" data-chip-word="glândula sebácea">glândula sebácea</span>
+        <span class="word-chip" data-chip-word="derme">derme</span>
+        <span class="word-chip" data-chip-word="glândula sudorípara">glândula sudorípara</span>
+        <span class="word-chip" data-chip-word="capilares sanguíneos">capilares sanguíneos</span>
+        <span class="word-chip" data-chip-word="hipoderme">hipoderme</span>
+      </div>
+      <button class="check-btn" data-checkblanks="fp1" data-blanks='["fpblank1a","fpblank1b","fpblank1c","fpblank1d","fpblank1e","fpblank1f","fpblank1g"]' style="margin-top:0.8rem;">Verificar</button>
+    </div>
+  </div>
+  <div class="feedback" id="fb-fp1"></div>
+</div>
+
+<!-- FP2: 1.2 Sebo e Suor -->
+<div class="q-card" id="fp2">
+  <div class="q-number">Questão 1.2 · Escolha Múltipla</div>
+  <div class="q-text">Selecione a estrutura responsável pela produção de <strong>sebo</strong>.</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="fp2"><span class="opt-letter">A</span>Glândula sudorípara</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="fp2"><span class="opt-letter">B</span>Glândula sebácea</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="fp2"><span class="opt-letter">C</span>Folículo piloso</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="fp2"><span class="opt-letter">D</span>Melanócito</button></li>
+  </ul>
+  <div class="feedback" id="fb-fp2"></div>
+</div>
+
+<div class="q-card" id="fp3">
+  <div class="q-number">Questão 1.2 · Escolha Múltipla</div>
+  <div class="q-text">Selecione a estrutura responsável pela produção de <strong>suor</strong>.</div>
+  <ul class="options-list">
+    <li><button class="option-btn" data-correct="false" data-qid="fp3"><span class="opt-letter">A</span>Glândula sebácea</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="fp3"><span class="opt-letter">B</span>Folículo piloso</button></li>
+    <li><button class="option-btn" data-correct="true" data-qid="fp3"><span class="opt-letter">C</span>Glândula sudorípara</button></li>
+    <li><button class="option-btn" data-correct="false" data-qid="fp3"><span class="opt-letter">D</span>Queratinócito</button></li>
+  </ul>
+  <div class="feedback" id="fb-fp3"></div>
+</div>
+
+<!-- FP4: 1.4 Substância proteção solar -->
+<div class="q-card" id="fp4">
+  <div class="q-number">Questão 1.4 · Desenvolvimento</div>
+  <div class="q-text">Identifique a substância produzida na pele que a protege da radiação solar.</div>
+  <textarea class="dev-textarea" placeholder="Escreve a tua resposta aqui..."></textarea>
+  <button class="reveal-btn" data-toggle="ans-fp4">Ver resposta modelo</button>
+  <div class="answer-box" id="ans-fp4">
+    <strong>📋 Resposta Modelo</strong>
+    A substância é a <strong>melanina</strong>, produzida pelos melanócitos presentes na camada basal da epiderme. A melanina absorve e dispersa a radiação ultravioleta (UV), protegendo as células da pele contra danos no ADN.
+  </div>
+</div>
+
+<!-- FP5: 1.5 Estruturas anexas -->
+<div class="q-card" id="fp5">
+  <div class="q-number">Questão 1.5 · Desenvolvimento</div>
+  <div class="q-text">Mencione o nome das estruturas anexas à pele.</div>
+  <textarea class="dev-textarea" placeholder="Escreve a tua resposta aqui..."></textarea>
+  <button class="reveal-btn" data-toggle="ans-fp5">Ver resposta modelo</button>
+  <div class="answer-box" id="ans-fp5">
+    <strong>📋 Resposta Modelo</strong>
+    As estruturas anexas da pele são: <strong>pelos</strong>, <strong>unhas</strong>, <strong>glândulas sebáceas</strong> e <strong>glândulas sudoríparas</strong>.
+  </div>
+</div>
+
+<!-- FP6: Questão 2 - Correspondência -->
+<div class="q-card" id="fp6">
+  <div class="q-number">Questão 2 · Correspondência</div>
+  <div class="q-text">Estabeleça a correspondência entre cada uma das afirmações da coluna I e cada uma das estruturas da coluna II, escrevendo o número correto em cada espaço.</div>
+  <div style="display:grid; grid-template-columns:1fr auto; gap:1.5rem; flex-wrap:wrap; margin-bottom:1rem;">
+    <div>
+      <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:0.5rem;">COLUNA I</p>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;">
+        <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.9rem;"><button class="blank-input" id="fpcorr1" data-answer="5" data-value="" type="button" style="min-width:50px;flex-shrink:0;">__</button><span>Têm origem no folículo piloso e são constituídos por queratina.</span></div>
+        <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.9rem;"><button class="blank-input" id="fpcorr2" data-answer="3" data-value="" type="button" style="min-width:50px;flex-shrink:0;">__</button><span>Produzem sebo, uma substância rica em lípidos.</span></div>
+        <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.9rem;"><button class="blank-input" id="fpcorr3" data-answer="6" data-value="" type="button" style="min-width:50px;flex-shrink:0;">__</button><span>Contém vasos sanguíneos e linfáticos, terminações nervosas sensíveis ao calor, frio, tato, pressão e dor.</span></div>
+        <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.9rem;"><button class="blank-input" id="fpcorr4" data-answer="7" data-value="" type="button" style="min-width:50px;flex-shrink:0;">__</button><span>Produzem o suor que libertam na superfície da pele.</span></div>
+        <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.9rem;"><button class="blank-input" id="fpcorr5" data-answer="2" data-value="" type="button" style="min-width:50px;flex-shrink:0;">__</button><span>Camada exterior da pele que a protege do meio externo.</span></div>
+        <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.9rem;"><button class="blank-input" id="fpcorr6" data-answer="1" data-value="" type="button" style="min-width:50px;flex-shrink:0;">__</button><span>São formadas por placas duras de queratina.</span></div>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:0.5rem;">COLUNA II</p>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;font-size:0.88rem;">
+        <span>1 — Unhas</span>
+        <span>2 — Epiderme</span>
+        <span>3 — Glândulas sebáceas</span>
+        <span>4 — Capilares sanguíneos</span>
+        <span>5 — Pelos</span>
+        <span>6 — Derme</span>
+        <span>7 — Glândulas sudoríparas</span>
+      </div>
+    </div>
+  </div>
+  <div class="word-bank">
+    <span class="word-chip" data-chip-word="1">1</span>
+    <span class="word-chip" data-chip-word="2">2</span>
+    <span class="word-chip" data-chip-word="3">3</span>
+    <span class="word-chip" data-chip-word="4">4</span>
+    <span class="word-chip" data-chip-word="5">5</span>
+    <span class="word-chip" data-chip-word="6">6</span>
+    <span class="word-chip" data-chip-word="7">7</span>
+  </div>
+  <button class="check-btn" data-checkblanks="fp6" data-blanks='["fpcorr1","fpcorr2","fpcorr3","fpcorr4","fpcorr5","fpcorr6"]' style="margin-top:0.8rem;">Verificar</button>
+  <div class="feedback" id="fb-fp6"></div>
+</div>
+
+<!-- FP7: Questão 3 - Funções da pele -->
+<div class="q-card" id="fp7">
+  <div class="q-number">Questão 3 · Desenvolvimento</div>
+  <div class="q-text">Refira quais são as principais funções da pele e explique em que consiste cada uma delas.</div>
+  <textarea class="dev-textarea" placeholder="Escreve a tua resposta aqui..."></textarea>
+  <button class="reveal-btn" data-toggle="ans-fp7">Ver resposta modelo</button>
+  <div class="answer-box" id="ans-fp7">
+    <strong>📋 Resposta Modelo</strong>
+    <b>1. Proteção:</b> A pele forma uma barreira física contra agentes externos (microrganismos, produtos químicos, radiação UV) e previne a perda excessiva de água.<br><br>
+    <b>2. Regulação térmica:</b> Através da vasodilatação/vasoconstrição e da produção de suor pelas glândulas sudoríparas, a pele regula a temperatura corporal.<br><br>
+    <b>3. Sensação:</b> Os recetores sensoriais na pele detetam estímulos como tato, pressão, temperatura e dor, transmitindo informação ao sistema nervoso.<br><br>
+    <b>4. Síntese de vitamina D:</b> A exposição à radiação UV desencadeia a produção de vitamina D, essencial para a absorção de cálcio e saúde óssea.<br><br>
+    <b>5. Excreção:</b> Através do suor, a pele elimina resíduos metabólicos como ureia, sais e ácido úrico.
+  </div>
+</div>
+
+<!-- FICHA 2 -->
+<div class="section-header" style="border-bottom:1px solid var(--border); margin-top:2rem;">
+  <div class="section-icon" style="background:var(--accent);">2</div>
+  <h2 style="font-size:1.1rem;">Ficha de Trabalho nº 2 — Envelhecimento e Úlceras de Pressão</h2>
+</div>
+
+<!-- FP8: 1.1 Alterações envelhecimento -->
+<div class="q-card" id="fp8">
+  <div class="q-number">Questão 1.1 · Desenvolvimento</div>
+  <div class="q-text">Indique quatro alterações na estrutura/fisiologia da pele decorrentes do envelhecimento.</div>
+  <textarea class="dev-textarea" placeholder="Escreve a tua resposta aqui..."></textarea>
+  <button class="reveal-btn" data-toggle="ans-fp8">Ver resposta modelo</button>
+  <div class="answer-box" id="ans-fp8">
+    <strong>📋 Resposta Modelo</strong>
+    <b>1.</b> Diminuição da produção de colagénio e elastina<br>
+    <b>2.</b> Afinamento da epiderme e da derme<br>
+    <b>3.</b> Redução da produção de suor e de sebo<br>
+    <b>4.</b> Diminuição da vascularização e da regeneração celular
+  </div>
+</div>
+
+<!-- FP9: 1.2 Intrínseco/Extrínseco -->
+<div class="q-card" id="fp9">
+  <div class="q-number">Questão 1.2 · Desenvolvimento</div>
+  <div class="q-text">Estabeleça a distinção entre envelhecimento intrínseco e extrínseco.</div>
+  <textarea class="dev-textarea" placeholder="Escreve a tua resposta aqui..."></textarea>
+  <button class="reveal-btn" data-toggle="ans-fp9">Ver resposta modelo</button>
+  <div class="answer-box" id="ans-fp9">
+    <strong>📋 Resposta Modelo</strong>
+    <b>Intrínseco →</b> envelhecimento natural do organismo, determinado geneticamente e inevitável, que ocorre independentemente de fatores externos.<br><br>
+    <b>Extrínseco →</b> envelhecimento provocado por fatores externos que aceleram o processo, como a exposição solar, tabaco, álcool, stress e poluição.
+  </div>
+</div>
+
+<!-- FP10: 1.3 Fatores extrínsecos - V/F -->
+<div class="q-card" id="fp10">
+  <div class="q-number">Questão 1.3 · Verdadeiro ou Falso</div>
+  <div class="q-text">Assinale se cada afirmação diz ou não respeito a um fator <strong>extrínseco</strong> que contribui para o envelhecimento da pele.</div>
+  <div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;">
+    <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem;"><button class="tf-btn" data-qid="fp10a" data-answer="true" style="flex:0 0 auto;width:110px;">✓ É extrínseco</button><span><b>A.</b> Consumo de álcool e tabaco</span></div>
+    <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem;"><button class="tf-btn" data-qid="fp10b" data-answer="false" style="flex:0 0 auto;width:110px;">✓ É extrínseco</button><span><b>B.</b> Idade</span></div>
+    <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem;"><button class="tf-btn" data-qid="fp10c" data-answer="false" style="flex:0 0 auto;width:110px;">✓ É extrínseco</button><span><b>C.</b> Evitar a exposição excessiva ao sol</span></div>
+    <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem;"><button class="tf-btn" data-qid="fp10d" data-answer="false" style="flex:0 0 auto;width:110px;">✓ É extrínseco</button><span><b>D.</b> Genética</span></div>
+    <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem;"><button class="tf-btn" data-qid="fp10e" data-answer="true" style="flex:0 0 auto;width:110px;">✓ É extrínseco</button><span><b>E.</b> Stress</span></div>
+    <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem;"><button class="tf-btn" data-qid="fp10f" data-answer="false" style="flex:0 0 auto;width:110px;">✓ É extrínseco</button><span><b>F.</b> Ter uma rotina apropriada de cuidados com a pele</span></div>
+    <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem;"><button class="tf-btn" data-qid="fp10g" data-answer="true" style="flex:0 0 auto;width:110px;">✓ É extrínseco</button><span><b>G.</b> Usar maquilhagem em excesso</span></div>
+    <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem;"><button class="tf-btn" data-qid="fp10h" data-answer="true" style="flex:0 0 auto;width:110px;">✓ É extrínseco</button><span><b>H.</b> Não usar creme hidratante</span></div>
+    <div style="display:flex;align-items:center;gap:0.8rem;font-size:0.95rem;"><button class="tf-btn" data-qid="fp10i" data-answer="true" style="flex:0 0 auto;width:110px;">✓ É extrínseco</button><span><b>I.</b> Poluição</span></div>
+  </div>
+  <p style="font-size:0.8rem;color:var(--text-muted);">Clica no botão de cada alínea para indicar se é ou não um fator extrínseco.</p>
+</div>
+
+<!-- FP11: 1.4 V/F colagénio -->
+<div class="q-card" id="fp11">
+  <div class="q-number">Questão 1.4 · Verdadeiro ou Falso</div>
+  <div class="q-text">Classifique as seguintes afirmações de Verdadeiras (V) ou Falsas (F).</div>
+  <div style="display:flex;flex-direction:column;gap:0.7rem;">
+    <div class="q-card" id="fp11a" style="box-shadow:none;border:1px solid var(--border);padding:0.8rem 1rem;margin-bottom:0;">
+      <div style="font-size:0.9rem;margin-bottom:0.5rem;"><b>A.</b> A pele jovem produz colagénio naturalmente.</div>
+      <div class="tf-row"><button class="tf-btn" data-qid="fp11a" data-answer="true">✓ Verdadeiro</button><button class="tf-btn" data-qid="fp11a" data-answer="false">✗ Falso</button></div>
+      <div class="feedback" id="fb-fp11a"></div>
+    </div>
+    <div class="q-card" id="fp11b" style="box-shadow:none;border:1px solid var(--border);padding:0.8rem 1rem;margin-bottom:0;">
+      <div style="font-size:0.9rem;margin-bottom:0.5rem;"><b>B.</b> A pele jovem apresenta-se mais áspera e ressequida.</div>
+      <div class="tf-row"><button class="tf-btn" data-qid="fp11b" data-answer="true">✓ Verdadeiro</button><button class="tf-btn" data-qid="fp11b" data-answer="false">✗ Falso</button></div>
+      <div class="feedback" id="fb-fp11b"></div>
+    </div>
+    <div class="q-card" id="fp11c" style="box-shadow:none;border:1px solid var(--border);padding:0.8rem 1rem;margin-bottom:0;">
+      <div style="font-size:0.9rem;margin-bottom:0.5rem;"><b>C.</b> A pele madura apresenta um aspeto externo, liso, macio e flexível.</div>
+      <div class="tf-row"><button class="tf-btn" data-qid="fp11c" data-answer="true">✓ Verdadeiro</button><button class="tf-btn" data-qid="fp11c" data-answer="false">✗ Falso</button></div>
+      <div class="feedback" id="fb-fp11c"></div>
+    </div>
+    <div class="q-card" id="fp11d" style="box-shadow:none;border:1px solid var(--border);padding:0.8rem 1rem;margin-bottom:0;">
+      <div style="font-size:0.9rem;margin-bottom:0.5rem;"><b>D.</b> Na pele madura ocorre um aumento na degradação de colagénio.</div>
+      <div class="tf-row"><button class="tf-btn" data-qid="fp11d" data-answer="true">✓ Verdadeiro</button><button class="tf-btn" data-qid="fp11d" data-answer="false">✗ Falso</button></div>
+      <div class="feedback" id="fb-fp11d"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FP12: 2.1 Completar definição úlcera -->
+<div class="q-card" id="fp12">
+  <div class="q-number">Questão 2.1 · Preenchimento</div>
+  <div class="q-text">Complete a definição de úlcera de pressão usando os seguintes termos:</div>
+  <div class="word-bank">
+    <span class="word-chip" data-chip-word="lesão">lesão</span>
+    <span class="word-chip" data-chip-word="diminuição">diminuição</span>
+    <span class="word-chip" data-chip-word="aumento">aumento</span>
+    <span class="word-chip" data-chip-word="circulação">circulação</span>
+    <span class="word-chip" data-chip-word="pressão">pressão</span>
+  </div>
+  <div class="blank-text" style="line-height:2.8;">
+    A úlcera de pressão é uma <button class="blank-input" id="fpblank12a" data-answer="lesão" data-value="" type="button">___</button> localizada da pele ou dos tecidos subjacentes que ocorre quando há <button class="blank-input" id="fpblank12b" data-answer="diminuição" data-value="" type="button">___</button> da <button class="blank-input" id="fpblank12c" data-answer="circulação" data-value="" type="button">___</button> sanguínea provocada pela <button class="blank-input" id="fpblank12d" data-answer="pressão" data-value="" type="button">___</button> aplicada a uma área específica.
+  </div>
+  <button class="check-btn" data-checkblanks="fp12" data-blanks='["fpblank12a","fpblank12b","fpblank12c","fpblank12d"]' style="margin-top:0.8rem;">Verificar</button>
+  <div class="feedback" id="fb-fp12"></div>
+</div>
+
+<!-- FP13: 2.2 Fatores de risco -->
+<div class="q-card" id="fp13">
+  <div class="q-number">Questão 2.2 · Desenvolvimento</div>
+  <div class="q-text">Indique três fatores de risco que favorecem o aparecimento de úlceras de pressão.</div>
+  <textarea class="dev-textarea" placeholder="Escreve a tua resposta aqui..."></textarea>
+  <button class="reveal-btn" data-toggle="ans-fp13">Ver resposta modelo</button>
+  <div class="answer-box" id="ans-fp13">
+    <strong>📋 Resposta Modelo</strong>
+    <b>1. Imobilidade</b> — pessoas acamadas ou com dificuldade de se movimentar têm maior pressão prolongada em certas áreas da pele.<br><br>
+    <b>2. Idade avançada</b> — a pele envelhecida é mais fina, frágil e menos resistente à pressão.<br><br>
+    <b>3. Má nutrição e desidratação</b> — comprometem a regeneração da pele e a sua resistência a lesões.
+  </div>
+</div>
+
+<!-- FP14: 2.3/2.4/2.5/2.6 Úlceras de pressão - diagramas -->
+<div class="q-card" id="fp14">
+  <div class="q-number">Questão 2.3–2.6 · Úlceras de Pressão</div>
+  <div class="q-text">Observe os esquemas relativos às diferentes categorias das úlceras de pressão.</div>
+
+  <!-- SVGs das 4 categorias -->
+  <div style="display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;margin:1rem 0;">
+
+    <!-- A = Grau III -->
+    <div style="text-align:center;">
+      <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" style="width:90px;height:auto;border:1px solid var(--border);border-radius:6px;">
+        <rect x="0" y="0" width="100" height="110" fill="#fff8f0"/>
+        <rect x="0" y="0" width="100" height="18" fill="#f9d9b8"/>
+        <rect x="0" y="18" width="100" height="25" fill="#f4a97a" opacity="0.8"/>
+        <rect x="0" y="43" width="100" height="35" fill="#f7c97a" opacity="0.7"/>
+        <rect x="0" y="78" width="100" height="32" fill="#e8e8d0"/>
+        <!-- Cratera profunda até gordura -->
+        <path d="M30,0 Q50,-2 70,0 L65,43 Q50,50 35,43 Z" fill="#c0392b" opacity="0.8"/>
+        <path d="M35,43 Q50,50 65,43 L62,55 Q50,60 38,55 Z" fill="#e67e22" opacity="0.7"/>
+        <text x="50" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">A</text>
+      </svg>
+    </div>
+
+    <!-- B = Grau I -->
+    <div style="text-align:center;">
+      <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" style="width:90px;height:auto;border:1px solid var(--border);border-radius:6px;">
+        <rect x="0" y="0" width="100" height="110" fill="#fff8f0"/>
+        <rect x="0" y="0" width="100" height="18" fill="#f9d9b8"/>
+        <rect x="0" y="18" width="100" height="25" fill="#f4a97a" opacity="0.8"/>
+        <rect x="0" y="43" width="100" height="35" fill="#f7c97a" opacity="0.7"/>
+        <rect x="0" y="78" width="100" height="32" fill="#e8e8d0"/>
+        <!-- Vermelhidão superficial sem abertura -->
+        <ellipse cx="50" cy="9" rx="22" ry="8" fill="#e74c3c" opacity="0.6"/>
+        <text x="50" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">B</text>
+      </svg>
+    </div>
+
+    <!-- C = Grau IV -->
+    <div style="text-align:center;">
+      <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" style="width:90px;height:auto;border:1px solid var(--border);border-radius:6px;">
+        <rect x="0" y="0" width="100" height="110" fill="#fff8f0"/>
+        <rect x="0" y="0" width="100" height="18" fill="#f9d9b8"/>
+        <rect x="0" y="18" width="100" height="25" fill="#f4a97a" opacity="0.8"/>
+        <rect x="0" y="43" width="100" height="35" fill="#f7c97a" opacity="0.7"/>
+        <rect x="0" y="78" width="100" height="32" fill="#e8e8d0"/>
+        <!-- Cratera muito profunda até osso -->
+        <path d="M25,0 Q50,-2 75,0 L70,43 Q50,52 30,43 Z" fill="#c0392b" opacity="0.9"/>
+        <path d="M30,43 Q50,52 70,43 L67,78 Q50,85 33,78 Z" fill="#e67e22" opacity="0.8"/>
+        <path d="M33,78 Q50,85 67,78 L64,95 Q50,100 36,95 Z" fill="#7f8c8d" opacity="0.7"/>
+        <text x="50" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">C</text>
+      </svg>
+    </div>
+
+    <!-- D = Grau II -->
+    <div style="text-align:center;">
+      <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" style="width:90px;height:auto;border:1px solid var(--border);border-radius:6px;">
+        <rect x="0" y="0" width="100" height="110" fill="#fff8f0"/>
+        <rect x="0" y="0" width="100" height="18" fill="#f9d9b8"/>
+        <rect x="0" y="18" width="100" height="25" fill="#f4a97a" opacity="0.8"/>
+        <rect x="0" y="43" width="100" height="35" fill="#f7c97a" opacity="0.7"/>
+        <rect x="0" y="78" width="100" height="32" fill="#e8e8d0"/>
+        <!-- Abertura parcial epiderme/derme -->
+        <path d="M35,0 Q50,-1 65,0 L62,25 Q50,30 38,25 Z" fill="#c0392b" opacity="0.75"/>
+        <text x="50" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">D</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 2.4 Ordenar -->
+  <div class="q-card" id="fp14a" style="box-shadow:none;border:1px solid var(--border);padding:1rem;margin-bottom:0.8rem;">
+    <div class="q-number">Questão 2.4</div>
+    <div class="q-text">Ordene os esquemas (A, B, C, D) na sequência temporal correta (do menos grave para o mais grave).</div>
+    <textarea class="dev-textarea" style="min-height:60px;" placeholder="Ex: B, D, A, C"></textarea>
+    <button class="reveal-btn" data-toggle="ans-fp14a">Ver resposta</button>
+    <div class="answer-box" id="ans-fp14a">
+      <strong>📋 Resposta:</strong> <b>B, D, A, C</b><br>
+      (Grau I → Grau II → Grau III → Grau IV)
+    </div>
+  </div>
+
+  <!-- 2.5 Categorias -->
+  <div class="q-card" id="fp14b" style="box-shadow:none;border:1px solid var(--border);padding:1rem;margin-bottom:0.8rem;">
+    <div class="q-number">Questão 2.5</div>
+    <div class="q-text">Indique cada uma das categorias representadas pelos esquemas.</div>
+    <textarea class="dev-textarea" style="min-height:60px;" placeholder="Ex: A - Grau ..., B - Grau ..."></textarea>
+    <button class="reveal-btn" data-toggle="ans-fp14b">Ver resposta</button>
+    <div class="answer-box" id="ans-fp14b">
+      <strong>📋 Resposta:</strong> <b>B — Grau I · D — Grau II · A — Grau III · C — Grau IV</b>
+    </div>
+  </div>
+
+  <!-- 2.6 Caracterizar C -->
+  <div class="q-card" id="fp14c" style="box-shadow:none;border:1px solid var(--border);padding:1rem;">
+    <div class="q-number">Questão 2.6</div>
+    <div class="q-text">Caracterize a categoria de úlcera representada pelo esquema C.</div>
+    <textarea class="dev-textarea" placeholder="Escreve a tua resposta aqui..."></textarea>
+    <button class="reveal-btn" data-toggle="ans-fp14c">Ver resposta modelo</button>
+    <div class="answer-box" id="ans-fp14c">
+      <strong>📋 Resposta Modelo</strong>
+      O esquema C representa a <b>Categoria/Grau IV</b>, a forma mais grave de úlcera de pressão. Caracteriza-se por uma perda total da espessura dos tecidos — a lesão é tão profunda que atinge estruturas como o músculo, o tendão ou mesmo o osso. A dor pode estar diminuída ou ausente devido à destruição das terminações nervosas locais.
+    </div>
+  </div>
+</div>
+
 <!-- RESULTADO FINAL -->
 <div id="final-result">
   <h2>Ficha Concluída!</h2>
@@ -1932,7 +2364,20 @@
     'q77': 'VERDADEIRO. Tanto a diabetes como a insuficiência vascular periférica comprometem a circulação e a cicatrização.',
     'q79': 'VERDADEIRO. A nutrição e hidratação adequadas são fundamentais para manter a integridade cutânea e favorecer a cicatrização.',
     'q81': 'VERDADEIRO. A mobilização e a alternância de posicionamentos são as principais medidas de prevenção das úlceras de pressão.',
-    'q83': 'VERDADEIRO. O controlo da glicemia na diabetes melhora a função vascular e imunológica, favorecendo a integridade da pele.'
+    'q83': 'VERDADEIRO. O controlo da glicemia na diabetes melhora a função vascular e imunológica, favorecendo a integridade da pele.',
+    'fp10a': 'CORRETO. O consumo de álcool e tabaco são fatores extrínsecos que aceleram o envelhecimento da pele.',
+    'fp10b': 'INCORRETO. A idade é um fator INTRÍNSECO — é o envelhecimento natural e inevitável do organismo.',
+    'fp10c': 'INCORRETO. Evitar a exposição ao sol é uma medida PROTETORA, não um fator de envelhecimento.',
+    'fp10d': 'INCORRETO. A genética é um fator INTRÍNSECO, determinado biologicamente.',
+    'fp10e': 'CORRETO. O stress é um fator extrínseco que acelera o envelhecimento cutâneo.',
+    'fp10f': 'INCORRETO. Ter uma rotina de cuidados com a pele é uma medida PROTETORA.',
+    'fp10g': 'CORRETO. O uso excessivo de maquilhagem pode danificar a pele, sendo um fator extrínseco.',
+    'fp10h': 'CORRETO. Não usar creme hidratante contribui para o envelhecimento precoce da pele.',
+    'fp10i': 'CORRETO. A poluição é um fator extrínseco que acelera o envelhecimento cutâneo.',
+    'fp11a': 'VERDADEIRO. A pele jovem produz colagénio naturalmente, o que lhe confere firmeza e elasticidade.',
+    'fp11b': 'FALSO. A pele jovem é lisa, macia e hidratada. É a pele madura/envelhecida que se torna mais áspera e ressequida.',
+    'fp11c': 'FALSO. É a pele JOVEM que apresenta aspeto liso, macio e flexível. A pele madura torna-se mais áspera e com rugas.',
+    'fp11d': 'VERDADEIRO. Na pele madura, a degradação de colagénio aumenta e a sua produção diminui, causando rugas e flacidez.'
   };
 
   function answerTF(btn, qId, isCorrect) {
