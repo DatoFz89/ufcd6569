@@ -2151,6 +2151,10 @@
   // Init progress
   updateProgress();
 
+  // Expor funções globalmente para os onclick inline do HTML
+  window.showFinal = showFinal;
+  window.toggleAnswer = toggleAnswer;
+
   // ─── EVENT DELEGATION (compatibilidade iOS/Safari) ──────────────────────
   function handleInteraction(e) {
     const target = e.target;
